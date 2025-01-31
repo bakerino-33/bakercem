@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حساب المعدل - بوبكر</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #e3f2fd;
+            direction: rtl;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #0d47a1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #0d47a1;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #0d47a1;
+            color: white;
+        }
+        input {
+            width: 50px;
+            text-align: center;
+        }
+        button {
+            background: #0d47a1;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #1565c0;
+        }
+        .buttons {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>حساب المعدل الفصلي للسنة الرابعة متوسط</h2>
+        <table>
+            <tr>
+                <th>المادة</th>
+                <th>التقويم</th>
+                <th>الفرض</th>
+                <th>الامتحان</th>
+                <th>المعامل</th>
+            </tr>
+            <script>
+                let subjects = [
+                    { name: "اللغة العربية", id: "ar", coeff: 5 },
+                    { name: "الرياضيات", id: "math", coeff: 5 },
+                    { name: "الفرنسية", id: "fr", coeff: 3 },
+                    { name: "الإنجليزية", id: "eng", coeff: 2 },
+                    { name: "العلوم الطبيعية", id: "sc", coeff: 2 },
+                    { name: "التاريخ والجغرافيا", id: "hist", coeff: 3 },
+                    { name: "التربية الإسلامية", id: "islam", coeff: 2 },
+                    { name: "التربية البدنية", id: "phy", coeff: 1 },
+                    { name: "الرسم", id: "art", coeff: 1 },
+                    { name: "الإعلام الآلي", id: "it", coeff: 1 }
+                ];
+
+                subjects.forEach(sub => {
+                    document.write(`
+                        <tr>
+                            <td>${sub.name}</td>
+                            <td><input type="number" id="${sub.id}_eval"></td>
+                            <td><input type="number" id="${sub.id}_test"></td>
+                            <td><input type="number" id="${sub.id}_exam"></td>
+                            <td>${sub.coeff}</td>
+                        </tr>
+                    `);
+                });
+            </script>
+        </table>
+
+        <button onclick="calculateAverage()">احسب المعدل</button>
+        <h3 id="result">المعدل: --</h3>
+
+        <div class="buttons">
+            <button onclick="saveData()">💾 حفظ الخانات</button>
+            <button onclick="restoreLastSaved()">🔄 استرجاع آخر عملية حفظ</button>
+            <button onclick="clearFields()">🗑️ حذف جميع الخانات</button>
+        </div>
+
+        <div class="buttons">
+            <button onclick="window.location.href='https://www.instagram.com/xx_soufi_39?igsh=cXBqczVvdXBreHZ2'">تواصل</button>
+            <button onclick="alert('سيتم التفعيل قريبًا - بكر')">تقييم التطبيق</button>
+        </div>
+    </div>
+
+    <script>
+        function calculateAverage() {
+            let totalScore = 0, totalCoeff = 0;
+
+            subjects.forEach(sub => {
+                let evalScore = parseFloat(document.getElementById(`${sub.id}_eval`).value) || 0;
+                let testScore = parseFloat(document.getElementById(`${sub.id}_test`).value) || 0;
+                let examScore = parseFloat(document.getElementById(`${sub.id}_exam`).value) || 0;
+                let avg = (evalScore + testScore + (examScore * 2)) / 4;
+                totalScore += avg * sub.coeff;
+                totalCoeff += sub.coeff;
+            });
+
+            let finalAverage = (totalScore / totalCoeff).toFixed(2);
+            document.getElementById("result").innerText = `المعدل: ${finalAverage}`;
+        }
+
+        function saveData() {
+            let data = {};
+
+            subjects.forEach(sub => {
+                data[`${sub.id}_eval`] = document.getElementById(`${sub.id}_eval`).value;
+                data[`${sub.id}_test`] = document.getElementById(`${sub.id}_test`).value;
+                data[`${sub.id}_exam`] = document.getElementById(`${sub.id}_exam`).value;
+            });
+
+            localStorage.setItem("lastSavedData", JSON.stringify(data));
+            alert("تم حفظ الخانات بنجاح!");
+        }
+
+        function restoreLastSaved() {
+            let data = localStorage.getItem("lastSavedData");
+
+            if (data) {
+                data = JSON.parse(data);
+                subjects.forEach(sub => {
+                    document.getElementById(`${sub.id}_eval`).value = data[`${sub.id}_eval`] || "";
+                    document.getElementById(`${sub.id}_test`).value = data[`${sub.id}_test`] || "";
+                    document.getElementById(`${sub.id}_exam`).value = data[`${sub.id}_exam`] || "";
+                });
+                alert("تم استرجاع آخر عملية حفظ!");
+            } else {
+                alert("لا توجد بيانات محفوظة!");
+            }
+        }
+
+        function clearFields() {
+            subjects.forEach(sub => {
+                document.getElementById(`${sub.id}_eval`).value = "";
+                document.getElementById(`${sub.id}_test`).value = "";
+                document.getElementById(`${sub.id}_exam`).value = "";
+            });
+            document.getElementById("result").innerText = "المعدل: --";
+        }
+    </script>
+
+</body>
+</html>
