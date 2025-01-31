@@ -72,17 +72,19 @@
                 <th>الفرض</th>
                 <th>الامتحان</th>
                 <th>المعامل</th>
+                <th>معدل المادة</th>
             </tr>
             <script>
                 let subjects = [
                     { name: "اللغة العربية", id: "ar", coeff: 5 },
-                    { name: "الرياضيات", id: "math", coeff: 5 },
+                    { name: "الرياضيات", id: "math", coeff: 4 },
                     { name: "الفرنسية", id: "fr", coeff: 3 },
                     { name: "الإنجليزية", id: "eng", coeff: 2 },
                     { name: "العلوم الطبيعية", id: "sc", coeff: 2 },
                     { name: "التاريخ والجغرافيا", id: "hist", coeff: 3 },
                     { name: "التربية الإسلامية", id: "islam", coeff: 2 },
-                    { name: "التربية البدنية", id: "phy", coeff: 1 },
+                    { name: "الفيزياء", id: "phy", coeff: 2 },
+                    { name: "التربية البدنية", id: "sport", coeff: 1 },
                     { name: "الرسم", id: "art", coeff: 1 },
                     { name: "الإعلام الآلي", id: "it", coeff: 1 }
                 ];
@@ -95,14 +97,15 @@
                             <td><input type="number" id="${sub.id}_test"></td>
                             <td><input type="number" id="${sub.id}_exam"></td>
                             <td>${sub.coeff}</td>
+                            <td id="${sub.id}_avg">--</td>
                         </tr>
                     `);
                 });
             </script>
         </table>
 
-        <button onclick="calculateAverage()">احسب المعدل</button>
-        <h3 id="result">المعدل: --</h3>
+        <button onclick="calculateAverages()">احسب المعدلات</button>
+        <h3 id="finalResult">المعدل الفصلي: --</h3>
 
         <div class="buttons">
             <button onclick="saveData()">💾 حفظ الخانات</button>
@@ -117,25 +120,27 @@
     </div>
 
     <script>
-        function calculateAverage() {
+        function calculateAverages() {
             let totalScore = 0, totalCoeff = 0;
 
             subjects.forEach(sub => {
                 let evalScore = parseFloat(document.getElementById(`${sub.id}_eval`).value) || 0;
                 let testScore = parseFloat(document.getElementById(`${sub.id}_test`).value) || 0;
                 let examScore = parseFloat(document.getElementById(`${sub.id}_exam`).value) || 0;
-                let avg = (evalScore + testScore + (examScore * 2)) / 4;
-                totalScore += avg * sub.coeff;
+
+                let subjectAverage = (evalScore + testScore + (examScore * 2)) / 4;
+                document.getElementById(`${sub.id}_avg`).innerText = subjectAverage.toFixed(2);
+
+                totalScore += subjectAverage * sub.coeff;
                 totalCoeff += sub.coeff;
             });
 
             let finalAverage = (totalScore / totalCoeff).toFixed(2);
-            document.getElementById("result").innerText = `المعدل: ${finalAverage}`;
+            document.getElementById("finalResult").innerText = `المعدل الفصلي: ${finalAverage}`;
         }
 
         function saveData() {
             let data = {};
-
             subjects.forEach(sub => {
                 data[`${sub.id}_eval`] = document.getElementById(`${sub.id}_eval`).value;
                 data[`${sub.id}_test`] = document.getElementById(`${sub.id}_test`).value;
@@ -148,7 +153,6 @@
 
         function restoreLastSaved() {
             let data = localStorage.getItem("lastSavedData");
-
             if (data) {
                 data = JSON.parse(data);
                 subjects.forEach(sub => {
@@ -167,8 +171,9 @@
                 document.getElementById(`${sub.id}_eval`).value = "";
                 document.getElementById(`${sub.id}_test`).value = "";
                 document.getElementById(`${sub.id}_exam`).value = "";
+                document.getElementById(`${sub.id}_avg`).innerText = "--";
             });
-            document.getElementById("result").innerText = "المعدل: --";
+            document.getElementById("finalResult").innerText = "المعدل الفصلي: --";
         }
     </script>
 
