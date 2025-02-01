@@ -10,18 +10,57 @@
             text-align: center;
             background-color: #e3f2fd;
             direction: rtl;
-            padding: 20px;
+            padding: 10px;
         }
         .container {
-            max-width: 800px;
+            max-width: 100%;
             margin: auto;
-            padding: 20px;
+            padding: 15px;
             background: #fff;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         h2 {
             color: #0d47a1;
+            font-size: 22px;
+        }
+        
+        /* جعل الجدول قابلاً للتمرير في الهاتف */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+        
+        table {
+            width: 100%;
+            min-width: 600px; /* يجعل الجدول قابلاً للتمرير إذا كان أصغر من هذا الحجم */
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #0d47a1;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #0d47a1;
+            color: white;
+        }
+        input {
+            width: 50px;
+            text-align: center;
+        }
+        button {
+            background: #0d47a1;
+            color: white;
+            padding: 10px;
+            margin-top: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background: #1565c0;
         }
         .buttons {
             display: flex;
@@ -29,22 +68,25 @@
             flex-wrap: wrap;
             margin-top: 10px;
         }
-        .login-form {
-            margin-top: 20px;
-            display: block;
-        }
-        .logged-in {
-            display: none;
-        }
-        .exam-section {
-            margin-top: 30px;
-            background: #f1f1f1;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-        }
-        .exam-section h3 {
-            color: #0d47a1;
+        
+        /* تحسين التصميم للهواتف */
+        @media (max-width: 768px) {
+            h2 {
+                font-size: 18px;
+            }
+            table {
+                font-size: 14px;
+            }
+            th, td {
+                padding: 5px;
+            }
+            input {
+                width: 40px;
+            }
+            button {
+                font-size: 14px;
+                padding: 8px;
+            }
         }
     </style>
 </head>
@@ -52,26 +94,9 @@
 
     <div class="container">
         <h2>حساب المعدل الفصلي للسنة الرابعة متوسط</h2>
-
-        <!-- نموذج تسجيل الدخول -->
-        <div class="login-form">
-            <h3>تسجيل الدخول</h3>
-            <input type="email" id="email" placeholder="البريد الإلكتروني" required><br><br>
-            <input type="password" id="password" placeholder="كلمة السر" required><br><br>
-            <button onclick="login()">تسجيل الدخول</button>
-            <br><br>
-            <p>ليس لديك حساب؟ <button onclick="window.location.href='signup.html'">إنشاء حساب جديد</button></p>
-        </div>
-
-        <!-- القسم الذي يظهر بعد تسجيل الدخول بنجاح -->
-        <div class="logged-in">
-            <h3>مرحبًا بك في التطبيق!</h3>
-            <button onclick="enableShare()">مشاركة</button>
-        </div>
-
-        <!-- حساب المعدل -->
-        <div class="exam-section">
-            <h3>حساب المعدل الفصلي للسنة الرابعة متوسط</h3>
+        
+        <!-- جعل الجدول قابلاً للتمرير في الهاتف -->
+        <div class="table-container">
             <table>
                 <tr>
                     <th>المادة</th>
@@ -111,34 +136,20 @@
                     });
                 </script>
             </table>
-
-            <button onclick="calculateAverages()">احسب المعدلات</button>
-            <h3 id="finalResult">المعدل الفصلي: --</h3>
-
-            <div class="buttons">
-                <button onclick="saveData()">💾 حفظ الخانات</button>
-                <button onclick="restoreLastSaved()">🔄 استرجاع آخر عملية حفظ</button>
-                <button onclick="clearFields()">🗑️ حذف جميع الخانات</button>
-            </div>
         </div>
 
-        <!-- قسم الفروض والاختبارات -->
-        <div class="exam-section">
-            <h3>فروض واختبارات السنة الرابعة متوسط</h3>
-            <button onclick="window.location.href='exams.html'">عرض الفروض والاختبارات</button>
-        </div>
+        <button onclick="calculateAverages()">احسب المعدلات</button>
+        <h3 id="finalResult">المعدل الفصلي: --</h3>
 
-        <!-- تواصل وتقييم -->
         <div class="buttons">
-            <button onclick="window.location.href='https://www.instagram.com/xx_soufi_39?igsh=cXBqczVvdXBreHZ2'">تواصل</button>
-            <button onclick="alert('سيتم التفعيل قريبًا - بكر')">تقييم التطبيق</button>
-            <button onclick="sendLike()">❤️ أعجبني</button>
+            <button onclick="saveData()">💾 حفظ الخانات</button>
+            <button onclick="restoreLastSaved()">🔄 استرجاع آخر عملية حفظ</button>
+            <button onclick="clearFields()">🗑️ حذف جميع الخانات</button>
         </div>
 
     </div>
 
     <script>
-        // حساب المعدلات
         function calculateAverages() {
             let totalScore = 0, totalCoeff = 0;
 
@@ -158,7 +169,6 @@
             document.getElementById("finalResult").innerText = `المعدل الفصلي: ${finalAverage}`;
         }
 
-        // حفظ البيانات
         function saveData() {
             let data = {};
             subjects.forEach(sub => {
@@ -171,7 +181,6 @@
             alert("تم حفظ الخانات بنجاح!");
         }
 
-        // استرجاع البيانات المحفوظة
         function restoreLastSaved() {
             let data = localStorage.getItem("lastSavedData");
             if (data) {
@@ -187,7 +196,6 @@
             }
         }
 
-        // حذف البيانات
         function clearFields() {
             subjects.forEach(sub => {
                 document.getElementById(`${sub.id}_eval`).value = "";
@@ -197,41 +205,6 @@
             });
             document.getElementById("finalResult").innerText = "المعدل الفصلي: --";
         }
-
-        // إرسال إعجاب
-        function sendLike() {
-            let email = "bakerffbaker@gmail.com";
-            let subject = encodeURIComponent("تقييم التطبيق");
-            let body = encodeURIComponent("مرحبًا، لقد أعجبني تطبيقك!");
-            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-        }
-
-        // تسجيل الدخول
-        function login() {
-            let email = document.getElementById("email").value;
-            let password = document.getElementById("password").value;
-
-            if (email && password) {
-                localStorage.setItem("loggedIn", true);
-                localStorage.setItem("email", email);
-                localStorage.setItem("password", password);
-                showLoggedIn();
-            } else {
-                alert("من فضلك أدخل البريد الإلكتروني وكلمة السر");
-            }
-        }
-
-        // عرض القسم بعد تسجيل الدخول
-        function showLoggedIn() {
-            document.querySelector(".login-form").style.display = "none";
-            document.querySelector(".logged-in").style.display = "block";
-        }
-
-        // تفعيل ميزة المشاركة
-        function enableShare() {
-            alert("تم تفعيل ميزة المشاركة!");
-        }
-
     </script>
 
 </body>
