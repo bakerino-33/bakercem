@@ -65,6 +65,16 @@
             font-weight: bold;
             color: #0d47a1;
         }
+        .password-container {
+            position: relative;
+        }
+        .show-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -85,7 +95,10 @@
         <div id="login-form" class="hidden">
             <h3>تسجيل الدخول</h3>
             <input type="email" id="login-email" placeholder="أدخل بريدك الإلكتروني" /><br><br>
-            <input type="password" id="login-password" placeholder="أدخل كلمة السر" /><br><br>
+            <div class="password-container">
+                <input type="password" id="login-password" placeholder="أدخل كلمة السر" /><br><br>
+                <span class="show-password" onclick="togglePassword()">👁️</span>
+            </div>
             <button onclick="login()">تسجيل الدخول</button>
             <p>ليس لديك حساب؟ <a href="#" onclick="showRegisterForm()">إنشاء حساب</a></p>
         </div>
@@ -214,6 +227,13 @@
             localStorage.removeItem("loggedIn");
             document.getElementById("login-container").classList.remove("hidden");
             document.getElementById("main-container").classList.add("hidden");
+        }
+
+        // إظهار أو إخفاء كلمة السر
+        function togglePassword() {
+            let passwordField = document.getElementById("login-password");
+            let type = passwordField.type === "password" ? "text" : "password";
+            passwordField.type = type;
         }
 
         // التحقق من حالة تسجيل الدخول عند تحميل الصفحة
