@@ -10,30 +10,21 @@
             text-align: center;
             background-color: #e3f2fd;
             direction: rtl;
-            padding: 10px;
+            padding: 20px;
         }
         .container {
-            max-width: 100%;
+            max-width: 800px;
             margin: auto;
-            padding: 15px;
+            padding: 20px;
             background: #fff;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         h2 {
             color: #0d47a1;
-            font-size: 22px;
         }
-        
-        /* جعل الجدول قابلاً للتمرير في الهاتف */
-        .table-container {
-            overflow-x: auto;
-            margin-top: 10px;
-        }
-        
         table {
             width: 100%;
-            min-width: 600px; /* يجعل الجدول قابلاً للتمرير إذا كان أصغر من هذا الحجم */
             border-collapse: collapse;
             margin-top: 10px;
         }
@@ -68,25 +59,23 @@
             flex-wrap: wrap;
             margin-top: 10px;
         }
-        
-        /* تحسين التصميم للهواتف */
-        @media (max-width: 768px) {
-            h2 {
-                font-size: 18px;
-            }
-            table {
-                font-size: 14px;
-            }
-            th, td {
-                padding: 5px;
-            }
-            input {
-                width: 40px;
-            }
-            button {
-                font-size: 14px;
-                padding: 8px;
-            }
+        .exam-section {
+            margin-top: 30px;
+            background: #f1f1f1;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .exam-section h3 {
+            color: #0d47a1;
+        }
+        .exam-section button {
+            margin-top: 10px;
+        }
+
+        /* إخفاء زر "مشاركة تواصل" في البداية */
+        #shareButton {
+            display: none;
         }
     </style>
 </head>
@@ -94,49 +83,45 @@
 
     <div class="container">
         <h2>حساب المعدل الفصلي للسنة الرابعة متوسط</h2>
-        
-        <!-- جعل الجدول قابلاً للتمرير في الهاتف -->
-        <div class="table-container">
-            <table>
-                <tr>
-                    <th>المادة</th>
-                    <th>التقويم</th>
-                    <th>الفرض</th>
-                    <th>الامتحان</th>
-                    <th>المعامل</th>
-                    <th>معدل المادة</th>
-                </tr>
-                <script>
-                    let subjects = [
-                        { name: "اللغة العربية", id: "ar", coeff: 5 },
-                        { name: "الرياضيات", id: "math", coeff: 4 },
-                        { name: "الفرنسية", id: "fr", coeff: 3 },
-                        { name: "الإنجليزية", id: "eng", coeff: 2 },
-                        { name: "العلوم الطبيعية", id: "sc", coeff: 2 },
-                        { name: "التاريخ والجغرافيا", id: "hist", coeff: 3 },
-                        { name: "التربية الإسلامية", id: "islam", coeff: 2 },
-                        { name: "الفيزياء", id: "phy", coeff: 2 },
-                        { name: "التربية البدنية", id: "sport", coeff: 1 },
-                        { name: "الرسم", id: "art", coeff: 1 },
-                        { name: "الإعلام الآلي", id: "it", coeff: 1 },
-                        { name: "التربية المدنية", id: "civ", coeff: 1 }
-                    ];
+        <table>
+            <tr>
+                <th>المادة</th>
+                <th>التقويم</th>
+                <th>الفرض</th>
+                <th>الامتحان</th>
+                <th>المعامل</th>
+                <th>معدل المادة</th>
+            </tr>
+            <script>
+                let subjects = [
+                    { name: "اللغة العربية", id: "ar", coeff: 5 },
+                    { name: "الرياضيات", id: "math", coeff: 4 },
+                    { name: "الفرنسية", id: "fr", coeff: 3 },
+                    { name: "الإنجليزية", id: "eng", coeff: 2 },
+                    { name: "العلوم الطبيعية", id: "sc", coeff: 2 },
+                    { name: "التاريخ والجغرافيا", id: "hist", coeff: 3 },
+                    { name: "التربية الإسلامية", id: "islam", coeff: 2 },
+                    { name: "الفيزياء", id: "phy", coeff: 2 },
+                    { name: "التربية البدنية", id: "sport", coeff: 1 },
+                    { name: "الرسم", id: "art", coeff: 1 },
+                    { name: "الإعلام الآلي", id: "it", coeff: 1 },
+                    { name: "التربية المدنية", id: "civ", coeff: 1 }
+                ];
 
-                    subjects.forEach(sub => {
-                        document.write(`
-                            <tr>
-                                <td>${sub.name}</td>
-                                <td><input type="number" id="${sub.id}_eval"></td>
-                                <td><input type="number" id="${sub.id}_test"></td>
-                                <td><input type="number" id="${sub.id}_exam"></td>
-                                <td>${sub.coeff}</td>
-                                <td id="${sub.id}_avg">--</td>
-                            </tr>
-                        `);
-                    });
-                </script>
-            </table>
-        </div>
+                subjects.forEach(sub => {
+                    document.write(`
+                        <tr>
+                            <td>${sub.name}</td>
+                            <td><input type="number" id="${sub.id}_eval"></td>
+                            <td><input type="number" id="${sub.id}_test"></td>
+                            <td><input type="number" id="${sub.id}_exam"></td>
+                            <td>${sub.coeff}</td>
+                            <td id="${sub.id}_avg">--</td>
+                        </tr>
+                    `);
+                });
+            </script>
+        </table>
 
         <button onclick="calculateAverages()">احسب المعدلات</button>
         <h3 id="finalResult">المعدل الفصلي: --</h3>
@@ -145,6 +130,23 @@
             <button onclick="saveData()">💾 حفظ الخانات</button>
             <button onclick="restoreLastSaved()">🔄 استرجاع آخر عملية حفظ</button>
             <button onclick="clearFields()">🗑️ حذف جميع الخانات</button>
+        </div>
+
+        <div class="buttons">
+            <button onclick="window.location.href='https://www.instagram.com/xx_soufi_39?igsh=cXBqczVvdXBreHZ2'">تواصل</button>
+            <button onclick="alert('سيتم التفعيل قريبًا - بكر')">تقييم التطبيق</button>
+            <button onclick="sendLike()">❤️ أعجبني</button>
+        </div>
+
+        <!-- قسم الفروض والاختبارات -->
+        <div class="exam-section">
+            <h3>فروض واختبارات السنة الرابعة متوسط</h3>
+            <button onclick="window.location.href='exams.html'">عرض الفروض والاختبارات</button>
+        </div>
+
+        <!-- زر "مشاركة تواصل" الذي يظهر بعد تسجيل الدخول بنجاح -->
+        <div class="buttons">
+            <button id="shareButton" onclick="shareInstagram()">مشاركة تواصل</button>
         </div>
 
     </div>
@@ -204,6 +206,40 @@
                 document.getElementById(`${sub.id}_avg`).innerText = "--";
             });
             document.getElementById("finalResult").innerText = "المعدل الفصلي: --";
+        }
+
+        function sendLike() {
+            let email = "bakerffbaker@gmail.com";
+            let subject = encodeURIComponent("تقييم التطبيق");
+            let body = encodeURIComponent("مرحبًا، لقد أعجبني تطبيقك!");
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        }
+
+        // دالة لتفعيل زر "مشاركة تواصل" بعد تسجيل الدخول بنجاح
+        function showShareButton() {
+            // تحقق من تسجيل الدخول
+            if (localStorage.getItem("loggedIn") === "true") {
+                document.getElementById("shareButton").style.display = "inline-block";  // عرض الزر
+            }
+        }
+
+        // دالة للمشاركة على انستغرام
+        function shareInstagram() {
+            let instagramUrl = prompt("أدخل رابط انستغرام الخاص بك:");
+            if (instagramUrl) {
+                alert("سيتم تفعيل انستغرامك قريبًا");
+                // إرسال إشعار أو رسالة للمطور
+                // يمكنك تعديل هذا ليقوم بإرسال رسالة لك أو حفظ الرابط في قاعدة البيانات
+                let email = "bakerffbaker@gmail.com";
+                let subject = encodeURIComponent("رابط انستغرام الجديد");
+                let body = encodeURIComponent("رابط انستغرام: " + instagramUrl);
+                window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+            }
+        }
+
+        // عند تحميل الصفحة، تحقق إذا كان المستخدم قد سجل الدخول
+        window.onload = function() {
+            showShareButton();
         }
     </script>
 
