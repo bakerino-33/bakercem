@@ -3,6 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول - بوبكر</title>
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.2/firebase-auth.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #e3f2fd;
+            direction: rtl;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #0d47a1;
+        }
+        .login-button {
+            background: #0d47a1;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-button:hover {
+            background: #1565c0;
+        }
+        .logged-in {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- شاشة تسجيل الدخول -->
+    <div id="loginScreen" class="container">
+        <h2>تسجيل الدخول عبر Google</h2>
+        <button class="login-button" id="loginButton">تسجيل الدخول باستخدام Google</button>
+    </div>
+
+    <!-- المحتوى بعد تسجيل الدخول -->
+    <div id="mainContent" class="container logged-in">
+        <h2>مرحباً بك في حسابك</h2>
+        <p id="userDetails"></p>
+        <button class="login-button" id="logoutButton">تسجيل الخروج</button>
+    </div>
+
+    <script>
+        // إعداد Firebase
+        const firebaseConfig = {
+            apiKey: "your-api-key",
+            authDomain: "your-app-id.firebaseapp.com",
+            projectId: "your-project-id",
+            storageBucket: "your-app-id.appspot.com",
+            messagingSenderId: "your-messaging-sender-id",
+            appId: "your-app-id"
+        };
+
+        // تهيئة التطبيق
+        const app = firebase.initializeApp(firebaseConfig);
+        const auth = firebase.getAuth();
+
+        // التعامل مع تسجيل الدخول عبر Google
+        const loginButton = document.getElementById("loginButton");
+        const logoutButton = document.getElementById("logoutButton");
+
+        loginButton.addEventListener("click", () => {
+            const provider = new firebase.GoogleAuthProvider();
+            firebase.signInWithPopup(auth, provider)
+                .then((result) => {
+                    const user = result.user;
+                    // تخزين بيانات المستخدم في الجلسة
+                    sessionStorage.setItem("user", JSON.stringify(user));
+                    document.getElementById("loginScreen").style.display = "none";
+                    document.getElementById("mainContent").style.display = "block";
+                    document.getElementById("userDetails").innerHTML = `
+                        <strong>الاسم:</strong> ${user.displayName}<br>
+                        <strong>البريد الإلكتروني:</strong> ${user.email}<br>
+                        <strong>الصورة:</strong> <img src="${user.photoURL}" alt="User Photo" width="100">
+                    `;
+                })
+                .catch((error) => {
+                    console.log(error.message);
+                });
+        });
+
+        logoutButton.addEventListener("click", () => {
+            firebase.signOut(auth).then(() => {
+                sessionStorage.removeItem("user");
+                document.getElementById("loginScreen").style.display = "block";
+                document.getElementById("mainContent").style.display = "none";
+            });
+        });
+
+        // التحقق من وجود المستخدم
+        if (sessionStorage.getItem("user")) {
+            document.getElementById("loginScreen").style.display = "none";
+            document.getElementById("mainContent").style.display = "block";
+            const user = JSON.parse(sessionStorage.getItem("user"));
+            document.getElementById("userDetails").innerHTML = `
+                <strong>الاسم:</strong> ${user.displayName}<br>
+                <strong>البريد الإلكتروني:</strong> ${user.email}<br>
+                <strong>الصورة:</strong> <img src="${user.photoURL}" alt="User Photo" width="100">
+            `;
+        }
+    </script>
     <title>حساب المعدل - بوبكر</title>
     <style>
         body {
