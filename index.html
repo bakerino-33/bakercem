@@ -101,17 +101,14 @@
             <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني" required/><br>
             <input type="password" id="password" placeholder="أدخل كلمة السر" required/><br>
             <button onclick="register()">إنشاء حساب</button>
-            <p>أليس لديك حساب؟ <a href="#" onclick="showLoginForm()">تسجيل الدخول</a></p>
-        </div>
-
+            
         <!-- نموذج تسجيل الدخول -->
         <div id="login-form" class="form-container hidden">
             <h3>تسجيل الدخول</h3>
             <input type="email" id="login-email" placeholder="أدخل بريدك الإلكتروني" required/><br>
             <input type="password" id="login-password" placeholder="أدخل كلمة السر" required/><br>
             <button onclick="login()">تسجيل الدخول</button>
-            <p>ليس لديك حساب؟ <a href="#" onclick="showRegisterForm()">إنشاء حساب</a></p>
-        </div>
+            
     </div>
 
     <!-- واجهة الحساب بعد تسجيل الدخول -->
@@ -249,6 +246,70 @@
             document.getElementById("user-name").innerText = username;
             document.getElementById("login-container").classList.add("hidden");
             document.getElementById("main-container").classList.remove("hidden");
+        }
+
+        // حساب المعدلات لكل مادة
+        function calculateAverages() {
+            let totalAverage = 0;
+            let totalCoeff = 0;
+
+            subjects.forEach(sub => {
+                let evalScore = parseFloat(document.getElementById(sub.id + "_eval").value) || 0;
+                let testScore = parseFloat(document.getElementById(sub.id + "_test").value) || 0;
+                let examScore = parseFloat(document.getElementById(sub.id + "_exam").value) || 0;
+
+                // حساب المعدل للمادة
+                let subjectAvg = (evalScore + testScore + examScore) / 3;
+                let weightedAvg = subjectAvg * sub.coeff;
+
+                // عرض المعدل في الجدول
+                document.getElementById(sub.id + "_avg").innerText = subjectAvg.toFixed(2);
+
+                totalAverage += weightedAvg;
+                totalCoeff += sub.coeff;
+            });
+
+            // حساب المعدل النهائي
+            let finalAvg = totalAverage / totalCoeff;
+            document.getElementById("finalResult").innerText = `المعدل الفصلي: ${finalAvg.toFixed(2)}`;
+        }
+
+        // حفظ البيانات
+        function saveData() {
+            subjects.forEach(sub => {
+                let evalScore = document.getElementById(sub.id + "_eval").value;
+                let testScore = document.getElementById(sub.id + "_test").value;
+                let examScore = document.getElementById(sub.id + "_exam").value;
+                localStorage.setItem(sub.id + "_eval", evalScore);
+                localStorage.setItem(sub.id + "_test", testScore);
+                localStorage.setItem(sub.id + "_exam", examScore);
+            });
+            alert("تم حفظ البيانات");
+        }
+
+        // استرجاع البيانات
+        function restoreData() {
+            subjects.forEach(sub => {
+                let evalScore = localStorage.getItem(sub.id + "_eval");
+                let testScore = localStorage.getItem(sub.id + "_test");
+                let examScore = localStorage.getItem(sub.id + "_exam");
+
+                if (evalScore) document.getElementById(sub.id + "_eval").value = evalScore;
+                if (testScore) document.getElementById(sub.id + "_test").value = testScore;
+                if (examScore) document.getElementById(sub.id + "_exam").value = examScore;
+            });
+            alert("تم استرجاع البيانات");
+        }
+
+        // حذف جميع الخانات
+        function clearFields() {
+            subjects.forEach(sub => {
+                document.getElementById(sub.id + "_eval").value = "";
+                document.getElementById(sub.id + "_test").value = "";
+                document.getElementById(sub.id + "_exam").value = "";
+                document.getElementById(sub.id + "_avg").innerText = "--";
+            });
+            alert("تم حذف جميع الخانات");
         }
     </script>
 
