@@ -10,21 +10,46 @@
             text-align: center;
             background-color: #e3f2fd;
             direction: rtl;
-            padding: 20px;
+            padding: 10px;
         }
         .container {
-            max-width: 800px;
+            max-width: 100%;
             margin: auto;
-            padding: 20px;
+            padding: 15px;
             background: #fff;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
         h2 {
             color: #0d47a1;
+            font-size: 22px;
+        }
+        .hidden {
+            display: none;
+        }
+        input, button {
+            width: 90%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            text-align: center;
+        }
+        button {
+            background: #0d47a1;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #1565c0;
+        }
+        .table-container {
+            overflow-x: auto;
+            margin-top: 10px;
         }
         table {
             width: 100%;
+            min-width: 600px;
             border-collapse: collapse;
             margin-top: 10px;
         }
@@ -37,138 +62,135 @@
             background: #0d47a1;
             color: white;
         }
-        input {
-            width: 50px;
-            text-align: center;
-        }
-        button {
-            background: #0d47a1;
-            color: white;
-            padding: 10px;
-            margin-top: 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background: #1565c0;
-        }
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-        .exam-section {
-            margin-top: 30px;
-            background: #f1f1f1;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-        }
-        .exam-section h3 {
-            color: #0d47a1;
-        }
-        .exam-section button {
-            margin-top: 10px;
-        }
-
-        /* إخفاء زر "مشاركة تواصل" في البداية */
-        #shareButton {
-            display: none;
-        }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <!-- شاشة تسجيل الدخول -->
+    <div id="loginContainer" class="container">
+        <h2>تسجيل الدخول</h2>
+        <input type="email" id="loginEmail" placeholder="أدخل بريدك الإلكتروني">
+        <input type="password" id="loginPassword" placeholder="أدخل كلمة المرور">
+        <button onclick="login()">تسجيل الدخول</button>
+        <p>ليس لديك حساب؟ <a href="#" onclick="showRegister()">إنشاء حساب جديد</a></p>
+    </div>
+
+    <!-- شاشة إنشاء حساب -->
+    <div id="registerContainer" class="container hidden">
+        <h2>إنشاء حساب جديد</h2>
+        <input type="email" id="registerEmail" placeholder="أدخل بريدك الإلكتروني">
+        <input type="password" id="registerPassword" placeholder="أدخل كلمة المرور">
+        <button onclick="register()">إنشاء الحساب</button>
+        <p>لديك حساب؟ <a href="#" onclick="showLogin()">تسجيل الدخول</a></p>
+    </div>
+
+    <!-- الصفحة الرئيسية بعد تسجيل الدخول -->
+    <div id="mainContent" class="container hidden">
         <h2>حساب المعدل الفصلي للسنة الرابعة متوسط</h2>
-        <table>
-            <tr>
-                <th>المادة</th>
-                <th>التقويم</th>
-                <th>الفرض</th>
-                <th>الامتحان</th>
-                <th>المعامل</th>
-                <th>معدل المادة</th>
-            </tr>
-            <script>
-                let subjects = [
-                    { name: "اللغة العربية", id: "ar", coeff: 5 },
-                    { name: "الرياضيات", id: "math", coeff: 4 },
-                    { name: "الفرنسية", id: "fr", coeff: 3 },
-                    { name: "الإنجليزية", id: "eng", coeff: 2 },
-                    { name: "العلوم الطبيعية", id: "sc", coeff: 2 },
-                    { name: "التاريخ والجغرافيا", id: "hist", coeff: 3 },
-                    { name: "التربية الإسلامية", id: "islam", coeff: 2 },
-                    { name: "الفيزياء", id: "phy", coeff: 2 },
-                    { name: "التربية البدنية", id: "sport", coeff: 1 },
-                    { name: "الرسم", id: "art", coeff: 1 },
-                    { name: "الإعلام الآلي", id: "it", coeff: 1 },
-                    { name: "التربية المدنية", id: "civ", coeff: 1 }
-                ];
+        <button onclick="logout()">🔴 تسجيل الخروج</button>
+        <button onclick="shareApp()">📢 مشاركة التطبيق</button>
 
-                subjects.forEach(sub => {
-                    document.write(`
-                        <tr>
-                            <td>${sub.name}</td>
-                            <td><input type="number" id="${sub.id}_eval"></td>
-                            <td><input type="number" id="${sub.id}_test"></td>
-                            <td><input type="number" id="${sub.id}_exam"></td>
-                            <td>${sub.coeff}</td>
-                            <td id="${sub.id}_avg">--</td>
-                        </tr>
-                    `);
-                });
-            </script>
-        </table>
+        <!-- أزرار الحفظ والاسترجاع -->
+        <button onclick="saveData()">💾 حفظ البيانات</button>
+        <button onclick="restoreData()">🔄 استرجاع البيانات</button>
 
-        <button onclick="calculateAverages()">احسب المعدلات</button>
-        <h3 id="finalResult">المعدل الفصلي: --</h3>
+        <div class="table-container">
+            <table>
+                <tr>
+                    <th>المادة</th>
+                    <th>التقويم</th>
+                    <th>الفرض</th>
+                    <th>الامتحان</th>
+                    <th>المعامل</th>
+                    <th>معدل المادة</th>
+                </tr>
+                <script>
+                    let subjects = [
+                        { name: "اللغة العربية", id: "ar", coeff: 5 },
+                        { name: "الرياضيات", id: "math", coeff: 4 },
+                        { name: "الفرنسية", id: "fr", coeff: 3 },
+                        { name: "الإنجليزية", id: "eng", coeff: 2 }
+                    ];
 
-        <div class="buttons">
-            <button onclick="saveData()">💾 حفظ الخانات</button>
-            <button onclick="restoreLastSaved()">🔄 استرجاع آخر عملية حفظ</button>
-            <button onclick="clearFields()">🗑️ حذف جميع الخانات</button>
+                    subjects.forEach(sub => {
+                        document.write(`
+                            <tr>
+                                <td>${sub.name}</td>
+                                <td><input type="number" id="${sub.id}_eval"></td>
+                                <td><input type="number" id="${sub.id}_test"></td>
+                                <td><input type="number" id="${sub.id}_exam"></td>
+                                <td>${sub.coeff}</td>
+                                <td id="${sub.id}_avg">--</td>
+                            </tr>
+                        `);
+                    });
+                </script>
+            </table>
         </div>
-
-        <div class="buttons">
-            <button onclick="window.location.href='https://www.instagram.com/xx_soufi_39?igsh=cXBqczVvdXBreHZ2'">تواصل</button>
-            <button onclick="alert('سيتم التفعيل قريبًا - بكر')">تقييم التطبيق</button>
-            <button onclick="sendLike()">❤️ أعجبني</button>
-        </div>
-
-        <!-- قسم الفروض والاختبارات -->
-        <div class="exam-section">
-            <h3>فروض واختبارات السنة الرابعة متوسط</h3>
-            <button onclick="window.location.href='exams.html'">عرض الفروض والاختبارات</button>
-        </div>
-
-        <!-- زر "مشاركة تواصل" الذي يظهر بعد تسجيل الدخول بنجاح -->
-        <div class="buttons">
-            <button id="shareButton" onclick="shareInstagram()">مشاركة تواصل</button>
-        </div>
-
     </div>
 
     <script>
-        function calculateAverages() {
-            let totalScore = 0, totalCoeff = 0;
+        function showRegister() {
+            document.getElementById("loginContainer").classList.add("hidden");
+            document.getElementById("registerContainer").classList.remove("hidden");
+        }
 
-            subjects.forEach(sub => {
-                let evalScore = parseFloat(document.getElementById(`${sub.id}_eval`).value) || 0;
-                let testScore = parseFloat(document.getElementById(`${sub.id}_test`).value) || 0;
-                let examScore = parseFloat(document.getElementById(`${sub.id}_exam`).value) || 0;
+        function showLogin() {
+            document.getElementById("registerContainer").classList.add("hidden");
+            document.getElementById("loginContainer").classList.remove("hidden");
+        }
 
-                let subjectAverage = (evalScore + testScore + (examScore * 2)) / 4;
-                document.getElementById(`${sub.id}_avg`).innerText = subjectAverage.toFixed(2);
+        function register() {
+            let email = document.getElementById("registerEmail").value;
+            let password = document.getElementById("registerPassword").value;
 
-                totalScore += subjectAverage * sub.coeff;
-                totalCoeff += sub.coeff;
-            });
+            if (!email.endsWith("@gmail.com")) {
+                alert("يجب أن يكون البريد الإلكتروني من Gmail!");
+                return;
+            }
 
-            let finalAverage = (totalScore / totalCoeff).toFixed(2);
-            document.getElementById("finalResult").innerText = `المعدل الفصلي: ${finalAverage}`;
+            if (password.length < 6) {
+                alert("يجب أن تكون كلمة المرور 6 أحرف على الأقل!");
+                return;
+            }
+
+            localStorage.setItem("userEmail", email);
+            localStorage.setItem("userPassword", password);
+            alert("تم إنشاء الحساب بنجاح!");
+            showLogin();
+        }
+
+        function login() {
+            let email = document.getElementById("loginEmail").value;
+            let password = document.getElementById("loginPassword").value;
+
+            let savedEmail = localStorage.getItem("userEmail");
+            let savedPassword = localStorage.getItem("userPassword");
+
+            if (email === savedEmail && password === savedPassword) {
+                localStorage.setItem("loggedIn", "true");
+                showMainContent();
+            } else {
+                alert("خطأ في البريد الإلكتروني أو كلمة المرور!");
+            }
+        }
+
+        function showMainContent() {
+            document.getElementById("loginContainer").classList.add("hidden");
+            document.getElementById("registerContainer").classList.add("hidden");
+            document.getElementById("mainContent").classList.remove("hidden");
+        }
+
+        function logout() {
+            localStorage.removeItem("loggedIn");
+            location.reload();
+        }
+
+        function shareApp() {
+            let instagramUrl = prompt("أدخل رابط حسابك على انستغرام:");
+            if (instagramUrl) {
+                alert("تم استلام رابطك، سيتم التفعيل قريبًا!");
+            }
         }
 
         function saveData() {
@@ -178,13 +200,12 @@
                 data[`${sub.id}_test`] = document.getElementById(`${sub.id}_test`).value;
                 data[`${sub.id}_exam`] = document.getElementById(`${sub.id}_exam`).value;
             });
-
-            localStorage.setItem("lastSavedData", JSON.stringify(data));
-            alert("تم حفظ الخانات بنجاح!");
+            localStorage.setItem("savedData", JSON.stringify(data));
+            alert("تم حفظ البيانات بنجاح!");
         }
 
-        function restoreLastSaved() {
-            let data = localStorage.getItem("lastSavedData");
+        function restoreData() {
+            let data = localStorage.getItem("savedData");
             if (data) {
                 data = JSON.parse(data);
                 subjects.forEach(sub => {
@@ -192,54 +213,14 @@
                     document.getElementById(`${sub.id}_test`).value = data[`${sub.id}_test`] || "";
                     document.getElementById(`${sub.id}_exam`).value = data[`${sub.id}_exam`] || "";
                 });
-                alert("تم استرجاع آخر عملية حفظ!");
+                alert("تم استرجاع البيانات!");
             } else {
                 alert("لا توجد بيانات محفوظة!");
             }
         }
 
-        function clearFields() {
-            subjects.forEach(sub => {
-                document.getElementById(`${sub.id}_eval`).value = "";
-                document.getElementById(`${sub.id}_test`).value = "";
-                document.getElementById(`${sub.id}_exam`).value = "";
-                document.getElementById(`${sub.id}_avg`).innerText = "--";
-            });
-            document.getElementById("finalResult").innerText = "المعدل الفصلي: --";
-        }
-
-        function sendLike() {
-            let email = "bakerffbaker@gmail.com";
-            let subject = encodeURIComponent("تقييم التطبيق");
-            let body = encodeURIComponent("مرحبًا، لقد أعجبني تطبيقك!");
-            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-        }
-
-        // دالة لتفعيل زر "مشاركة تواصل" بعد تسجيل الدخول بنجاح
-        function showShareButton() {
-            // تحقق من تسجيل الدخول
-            if (localStorage.getItem("loggedIn") === "true") {
-                document.getElementById("shareButton").style.display = "inline-block";  // عرض الزر
-            }
-        }
-
-        // دالة للمشاركة على انستغرام
-        function shareInstagram() {
-            let instagramUrl = prompt("أدخل رابط انستغرام الخاص بك:");
-            if (instagramUrl) {
-                alert("سيتم تفعيل انستغرامك قريبًا");
-                // إرسال إشعار أو رسالة للمطور
-                // يمكنك تعديل هذا ليقوم بإرسال رسالة لك أو حفظ الرابط في قاعدة البيانات
-                let email = "bakerffbaker@gmail.com";
-                let subject = encodeURIComponent("رابط انستغرام الجديد");
-                let body = encodeURIComponent("رابط انستغرام: " + instagramUrl);
-                window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-            }
-        }
-
-        // عند تحميل الصفحة، تحقق إذا كان المستخدم قد سجل الدخول
-        window.onload = function() {
-            showShareButton();
+        if (localStorage.getItem("loggedIn")) {
+            showMainContent();
         }
     </script>
 
