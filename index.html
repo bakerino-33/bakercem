@@ -64,8 +64,19 @@
 </head>
 <body>
 
-    <div class="container">
+    <!-- واجهة تسجيل الدخول -->
+    <div id="login-container" class="container">
+        <h2>تسجيل الدخول</h2>
+        <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني">
+        <button onclick="login()">تسجيل الدخول</button>
+    </div>
+
+    <!-- واجهة الحساب بعد تسجيل الدخول -->
+    <div id="main-container" class="container hidden">
         <h2>حساب المعدل الفصلي للسنة الرابعة متوسط</h2>
+        <button onclick="logout()">🚪 تسجيل الخروج</button>
+        <button onclick="share()">📢 مشاركة</button>
+
         <div class="table-container">
             <table>
                 <tr>
@@ -117,6 +128,30 @@
     </div>
 
     <script>
+        function login() {
+            let email = document.getElementById("email").value.trim();
+            if (!email.endsWith("@gmail.com")) {
+                alert("يجب إدخال بريد إلكتروني ينتهي بـ @gmail.com");
+                return;
+            }
+            localStorage.setItem("loggedIn", "true");
+            document.getElementById("login-container").classList.add("hidden");
+            document.getElementById("main-container").classList.remove("hidden");
+        }
+
+        function logout() {
+            localStorage.removeItem("loggedIn");
+            document.getElementById("login-container").classList.remove("hidden");
+            document.getElementById("main-container").classList.add("hidden");
+        }
+
+        function share() {
+            let link = prompt("أدخل رابط الإنستغرام للمشاركة:");
+            if (link) {
+                alert("تمت مشاركة الرابط: " + link);
+            }
+        }
+
         function calculateAverages() {
             let totalScore = 0, totalCoeff = 0;
             subjects.forEach(sub => {
@@ -170,6 +205,11 @@
                 document.getElementById(`${sub.id}_avg`).innerText = "--";
             });
             document.getElementById("finalResult").innerText = "المعدل الفصلي: --";
+        }
+
+        if (localStorage.getItem("loggedIn") === "true") {
+            document.getElementById("login-container").classList.add("hidden");
+            document.getElementById("main-container").classList.remove("hidden");
         }
     </script>
 
