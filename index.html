@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -10,306 +11,170 @@
             text-align: center;
             background-color: #e3f2fd;
             direction: rtl;
-            padding: 10px;
+            padding: 20px;
         }
         .container {
-            max-width: 90%;
+            max-width: 800px;
             margin: auto;
-            padding: 15px;
+            padding: 20px;
             background: #fff;
             border-radius: 10px;
             box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
         }
-        .hidden {
-            display: none;
+        h2 {
+            color: #0d47a1;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #0d47a1;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #0d47a1;
+            color: white;
         }
         input {
-            width: 100%;
-            max-width: 300px;
+            width: 50px;
             text-align: center;
-            font-size: 18px;
-            padding: 10px;
-            margin: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
         }
         button {
             background: #0d47a1;
             color: white;
             padding: 10px;
-            margin: 5px;
+            margin-top: 10px;
             border: none;
             cursor: pointer;
             border-radius: 5px;
-            font-size: 14px;
-            width: 100%;
         }
         button:hover {
             background: #1565c0;
         }
-        #user-name {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #0d47a1;
-        }
-        .form-container {
+        .buttons {
             display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-        table {
-            width: 100%;
-            max-width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            font-size: 14px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background-color: #0d47a1;
-            color: white;
-        }
-        @media (max-width: 768px) {
-            th, td {
-                font-size: 12px;
-            }
-            input {
-                width: 80%;
-                max-width: 250px;
-            }
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
 
-    <!-- واجهة تسجيل الدخول وإنشاء حساب -->
-    <div id="login-container" class="container">
-        <h2>تسجيل الدخول أو إنشاء حساب</h2>
-        
-        <!-- نموذج إنشاء حساب -->
-        <div id="register-form" class="form-container">
-            <h3>إنشاء حساب</h3>
-            <input type="text" id="username" placeholder="أدخل اسم المستخدم" required/><br>
-            <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني" required/><br>
-            <input type="password" id="password" placeholder="أدخل كلمة السر" required/><br>
-            <button onclick="register()">إنشاء حساب</button>
-            
-        <!-- نموذج تسجيل الدخول -->
-        <div id="login-form" class="form-container hidden">
-            <h3>تسجيل الدخول</h3>
-            <input type="email" id="login-email" placeholder="أدخل بريدك الإلكتروني" required/><br>
-            <input type="password" id="login-password" placeholder="أدخل كلمة السر" required/><br>
-            <button onclick="login()">تسجيل الدخول</button>
-            
-    </div>
-
-    <!-- واجهة الحساب بعد تسجيل الدخول -->
-    <div id="main-container" class="container hidden">
+    <div class="container">
         <h2>حساب المعدل الفصلي للسنة الرابعة متوسط</h2>
-        <button onclick="logout()">🚪 تسجيل الخروج</button>
-        <button onclick="share()">📢 مشاركة</button>
-        <div id="user-name"></div>
+        <table>
+            <tr>
+                <th>المادة</th>
+                <th>التقويم</th>
+                <th>الفرض</th>
+                <th>الامتحان</th>
+                <th>المعامل</th>
+                <th>معدل المادة</th>
+            </tr>
+            <script>
+                let subjects = [
+                    { name: "اللغة العربية", id: "ar", coeff: 5 },
+                    { name: "الرياضيات", id: "math", coeff: 4 },
+                    { name: "الفرنسية", id: "fr", coeff: 3 },
+                    { name: "الإنجليزية", id: "eng", coeff: 2 },
+                    { name: "العلوم الطبيعية", id: "sc", coeff: 2 },
+                    { name: "التاريخ والجغرافيا", id: "hist", coeff: 3 },
+                    { name: "التربية الإسلامية", id: "islam", coeff: 2 },
+                    { name: "الفيزياء", id: "phy", coeff: 2 },
+                    { name: "التربية البدنية", id: "sport", coeff: 1 },
+                    { name: "الرسم", id: "art", coeff: 1 },
+                    { name: "الإعلام الآلي", id: "it", coeff: 1 }
+                ];
 
-        <div class="table-container">
-            <table>
-                <thead>
-                    <tr>
-                        <th>المادة</th>
-                        <th>التقويم</th>
-                        <th>الفرض</th>
-                        <th>الامتحان</th>
-                        <th>المعامل</th>
-                        <th>معدل المادة</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <script>
-                        let subjects = [
-                            { name: "اللغة العربية", id: "ar", coeff: 5 },
-                            { name: "الرياضيات", id: "math", coeff: 4 },
-                            { name: "الفرنسية", id: "fr", coeff: 3 },
-                            { name: "الإنجليزية", id: "eng", coeff: 2 },
-                            { name: "العلوم الطبيعية", id: "sc", coeff: 2 },
-                            { name: "التاريخ والجغرافيا", id: "hist", coeff: 3 },
-                            { name: "التربية الإسلامية", id: "islam", coeff: 2 },
-                            { name: "الفيزياء", id: "phy", coeff: 2 },
-                            { name: "التربية البدنية", id: "sport", coeff: 1 },
-                            { name: "الرسم", id: "art", coeff: 1 },
-                            { name: "الإعلام الآلي", id: "it", coeff: 1 },
-                            { name: "التربية المدنية", id: "civ", coeff: 1 }
-                        ];
-
-                        subjects.forEach(sub => {
-                            document.write(`
-                                <tr>
-                                    <td>${sub.name}</td>
-                                    <td><input type="number" id="${sub.id}_eval"></td>
-                                    <td><input type="number" id="${sub.id}_test"></td>
-                                    <td><input type="number" id="${sub.id}_exam"></td>
-                                    <td>${sub.coeff}</td>
-                                    <td id="${sub.id}_avg">--</td>
-                                </tr>
-                            `);
-                        });
-                    </script>
-                </tbody>
-            </table>
-        </div>
+                subjects.forEach(sub => {
+                    document.write(`
+                        <tr>
+                            <td>${sub.name}</td>
+                            <td><input type="number" id="${sub.id}_eval"></td>
+                            <td><input type="number" id="${sub.id}_test"></td>
+                            <td><input type="number" id="${sub.id}_exam"></td>
+                            <td>${sub.coeff}</td>
+                            <td id="${sub.id}_avg">--</td>
+                        </tr>
+                    `);
+                });
+            </script>
+        </table>
 
         <button onclick="calculateAverages()">احسب المعدلات</button>
         <h3 id="finalResult">المعدل الفصلي: --</h3>
 
-        <button onclick="saveData()">💾 حفظ الخانات</button>
-        <button onclick="restoreData()">🔄 استرجاع الخانات</button>
-        <button onclick="clearFields()">🗑️ حذف جميع الخانات</button>
+        <div class="buttons">
+            <button onclick="saveData()">💾 حفظ الخانات</button>
+            <button onclick="restoreLastSaved()">🔄 استرجاع آخر عملية حفظ</button>
+            <button onclick="clearFields()">🗑️ حذف جميع الخانات</button>
+        </div>
+
+        <div class="buttons">
+            <button onclick="window.location.href='https://www.instagram.com/xx_soufi_39?igsh=cXBqczVvdXBreHZ2'">تواصل</button>
+            <button onclick="alert('سيتم التفعيل قريبًا - بكر')">تقييم التطبيق</button>
+        </div>
     </div>
 
     <script>
-        // إظهار واجهة تسجيل الدخول
-        function showLoginForm() {
-            document.getElementById("register-form").classList.add("hidden");
-            document.getElementById("login-form").classList.remove("hidden");
-        }
-
-        // إظهار واجهة إنشاء الحساب
-        function showRegisterForm() {
-            document.getElementById("login-form").classList.add("hidden");
-            document.getElementById("register-form").classList.remove("hidden");
-        }
-
-        // تسجيل حساب جديد
-        function register() {
-            let username = document.getElementById("username").value.trim();
-            let email = document.getElementById("email").value.trim();
-            let password = document.getElementById("password").value.trim();
-
-            if (!email.endsWith("@gmail.com")) {
-                alert("يجب إدخال بريد إلكتروني ينتهي بـ @gmail.com");
-                return;
-            }
-
-            // تخزين البيانات في التخزين المحلي
-            localStorage.setItem("username", username);
-            localStorage.setItem("email", email);
-            localStorage.setItem("password", password);
-
-            // الانتقال إلى تسجيل الدخول بعد إنشاء الحساب
-            alert("تم إنشاء الحساب بنجاح!");
-            document.getElementById("register-form").classList.add("hidden");
-            document.getElementById("login-form").classList.remove("hidden");
-        }
-
-        // تسجيل الدخول
-        function login() {
-            let loginEmail = document.getElementById("login-email").value.trim();
-            let loginPassword = document.getElementById("login-password").value.trim();
-            let storedEmail = localStorage.getItem("email");
-            let storedPassword = localStorage.getItem("password");
-
-            if (loginEmail === storedEmail && loginPassword === storedPassword) {
-                // تخزين حالة تسجيل الدخول
-                localStorage.setItem("loggedIn", "true");
-
-                // إظهار اسم المستخدم في الزاوية العليا اليمنى
-                let username = localStorage.getItem("username");
-                document.getElementById("user-name").innerText = username;
-
-                // إخفاء شاشة التسجيل وتسجيل الدخول
-                document.getElementById("login-container").classList.add("hidden");
-                document.getElementById("main-container").classList.remove("hidden");
-            } else {
-                alert("البريد الإلكتروني أو كلمة السر غير صحيحة");
-            }
-        }
-
-        // تسجيل الخروج
-        function logout() {
-            localStorage.removeItem("email");
-            localStorage.removeItem("password");
-            localStorage.removeItem("username");
-            localStorage.removeItem("loggedIn");
-            document.getElementById("login-container").classList.remove("hidden");
-            document.getElementById("main-container").classList.add("hidden");
-        }
-
-        // التحقق من حالة تسجيل الدخول عند تحميل الصفحة
-        if (localStorage.getItem("loggedIn") === "true") {
-            let username = localStorage.getItem("username");
-            document.getElementById("user-name").innerText = username;
-            document.getElementById("login-container").classList.add("hidden");
-            document.getElementById("main-container").classList.remove("hidden");
-        }
-
-        // حساب المعدلات لكل مادة
         function calculateAverages() {
-            let totalAverage = 0;
-            let totalCoeff = 0;
+            let totalScore = 0, totalCoeff = 0;
 
             subjects.forEach(sub => {
-                let evalScore = parseFloat(document.getElementById(sub.id + "_eval").value) || 0;
-                let testScore = parseFloat(document.getElementById(sub.id + "_test").value) || 0;
-                let examScore = parseFloat(document.getElementById(sub.id + "_exam").value) || 0;
+                let evalScore = parseFloat(document.getElementById(`${sub.id}_eval`).value) || 0;
+                let testScore = parseFloat(document.getElementById(`${sub.id}_test`).value) || 0;
+                let examScore = parseFloat(document.getElementById(`${sub.id}_exam`).value) || 0;
 
-                // حساب المعدل للمادة
-                let subjectAvg = (evalScore + testScore + examScore) / 3;
-                let weightedAvg = subjectAvg * sub.coeff;
+                let subjectAverage = (evalScore + testScore + (examScore * 2)) / 4;
+                document.getElementById(`${sub.id}_avg`).innerText = subjectAverage.toFixed(2);
 
-                // عرض المعدل في الجدول
-                document.getElementById(sub.id + "_avg").innerText = subjectAvg.toFixed(2);
-
-                totalAverage += weightedAvg;
+                totalScore += subjectAverage * sub.coeff;
                 totalCoeff += sub.coeff;
             });
 
-            // حساب المعدل النهائي
-            let finalAvg = totalAverage / totalCoeff;
-            document.getElementById("finalResult").innerText = `المعدل الفصلي: ${finalAvg.toFixed(2)}`;
+            let finalAverage = (totalScore / totalCoeff).toFixed(2);
+            document.getElementById("finalResult").innerText = `المعدل الفصلي: ${finalAverage}`;
         }
 
-        // حفظ البيانات
         function saveData() {
+            let data = {};
             subjects.forEach(sub => {
-                let evalScore = document.getElementById(sub.id + "_eval").value;
-                let testScore = document.getElementById(sub.id + "_test").value;
-                let examScore = document.getElementById(sub.id + "_exam").value;
-                localStorage.setItem(sub.id + "_eval", evalScore);
-                localStorage.setItem(sub.id + "_test", testScore);
-                localStorage.setItem(sub.id + "_exam", examScore);
+                data[`${sub.id}_eval`] = document.getElementById(`${sub.id}_eval`).value;
+                data[`${sub.id}_test`] = document.getElementById(`${sub.id}_test`).value;
+                data[`${sub.id}_exam`] = document.getElementById(`${sub.id}_exam`).value;
             });
-            alert("تم حفظ البيانات");
+
+            localStorage.setItem("lastSavedData", JSON.stringify(data));
+            alert("تم حفظ الخانات بنجاح!");
         }
 
-        // استرجاع البيانات
-        function restoreData() {
-            subjects.forEach(sub => {
-                let evalScore = localStorage.getItem(sub.id + "_eval");
-                let testScore = localStorage.getItem(sub.id + "_test");
-                let examScore = localStorage.getItem(sub.id + "_exam");
-
-                if (evalScore) document.getElementById(sub.id + "_eval").value = evalScore;
-                if (testScore) document.getElementById(sub.id + "_test").value = testScore;
-                if (examScore) document.getElementById(sub.id + "_exam").value = examScore;
-            });
-            alert("تم استرجاع البيانات");
+        function restoreLastSaved() {
+            let data = localStorage.getItem("lastSavedData");
+            if (data) {
+                data = JSON.parse(data);
+                subjects.forEach(sub => {
+                    document.getElementById(`${sub.id}_eval`).value = data[`${sub.id}_eval`] || "";
+                    document.getElementById(`${sub.id}_test`).value = data[`${sub.id}_test`] || "";
+                    document.getElementById(`${sub.id}_exam`).value = data[`${sub.id}_exam`] || "";
+                });
+                alert("تم استرجاع آخر عملية حفظ!");
+            } else {
+                alert("لا توجد بيانات محفوظة!");
+            }
         }
 
-        // حذف جميع الخانات
         function clearFields() {
             subjects.forEach(sub => {
-                document.getElementById(sub.id + "_eval").value = "";
-                document.getElementById(sub.id + "_test").value = "";
-                document.getElementById(sub.id + "_exam").value = "";
-                document.getElementById(sub.id + "_avg").innerText = "--";
+                document.getElementById(`${sub.id}_eval`).value = "";
+                document.getElementById(`${sub.id}_test`).value = "";
+                document.getElementById(`${sub.id}_exam`).value = "";
+                document.getElementById(`${sub.id}_avg`).innerText = "--";
             });
-            alert("تم حذف جميع الخانات");
+            document.getElementById("finalResult").innerText = "المعدل الفصلي: --";
         }
     </script>
 
