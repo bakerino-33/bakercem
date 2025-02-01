@@ -23,9 +23,6 @@
         .hidden {
             display: none;
         }
-        .table-container {
-            overflow-x: auto;
-        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -60,15 +57,36 @@
         button:hover {
             background: #1565c0;
         }
+        #user-name {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #0d47a1;
+        }
     </style>
 </head>
 <body>
 
-    <!-- واجهة تسجيل الدخول -->
+    <!-- واجهة تسجيل الدخول وإنشاء حساب -->
     <div id="login-container" class="container">
-        <h2>تسجيل الدخول</h2>
-        <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني">
-        <button onclick="login()">تسجيل الدخول</button>
+        <h2>تسجيل الدخول أو إنشاء حساب</h2>
+        
+        <div id="register-form">
+            <h3>إنشاء حساب</h3>
+            <input type="text" id="username" placeholder="أدخل اسم المستخدم" /><br><br>
+            <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني" /><br><br>
+            <input type="password" id="password" placeholder="أدخل كلمة السر" /><br><br>
+            <button onclick="register()">إنشاء حساب</button>
+        </div>
+
+        <div id="login-form" class="hidden">
+            <h3>تسجيل الدخول</h3>
+            <input type="email" id="login-email" placeholder="أدخل بريدك الإلكتروني" /><br><br>
+            <input type="password" id="login-password" placeholder="أدخل كلمة السر" /><br><br>
+            <button onclick="login()">تسجيل الدخول</button>
+        </div>
     </div>
 
     <!-- واجهة الحساب بعد تسجيل الدخول -->
@@ -128,86 +146,65 @@
     </div>
 
     <script>
-        function login() {
+        // تسجيل حساب جديد
+        function register() {
+            let username = document.getElementById("username").value.trim();
             let email = document.getElementById("email").value.trim();
+            let password = document.getElementById("password").value.trim();
+
             if (!email.endsWith("@gmail.com")) {
                 alert("يجب إدخال بريد إلكتروني ينتهي بـ @gmail.com");
                 return;
             }
-            localStorage.setItem("loggedIn", "true");
-            document.getElementById("login-container").classList.add("hidden");
-            document.getElementById("main-container").classList.remove("hidden");
+
+            // تخزين البيانات في التخزين المحلي
+            localStorage.setItem("username", username);
+            localStorage.setItem("email", email);
+            localStorage.setItem("password", password);
+
+            // الانتقال إلى تسجيل الدخول بعد إنشاء الحساب
+            alert("تم إنشاء الحساب بنجاح!");
+            document.getElementById("register-form").classList.add("hidden");
+            document.getElementById("login-form").classList.remove("hidden");
         }
 
+        // تسجيل الدخول
+        function login() {
+            let loginEmail = document.getElementById("login-email").value.trim();
+            let loginPassword = document.getElementById("login-password").value.trim();
+            let storedEmail = localStorage.getItem("email");
+            let storedPassword = localStorage.getItem("password");
+
+            if (loginEmail === storedEmail && loginPassword === storedPassword) {
+                // تخزين حالة تسجيل الدخول
+                localStorage.setItem("loggedIn", "true");
+
+                // إظهار اسم المستخدم في الزاوية العليا اليمنى
+                let username = localStorage.getItem("username");
+                document.getElementById("user-name").innerText = username;
+
+                // إخفاء شاشة التسجيل وتسجيل الدخول
+                document.getElementById("login-container").classList.add("hidden");
+                document.getElementById("main-container").classList.remove("hidden");
+            } else {
+                alert("البريد الإلكتروني أو كلمة السر غير صحيحة");
+            }
+        }
+
+        // تسجيل الخروج
         function logout() {
+            localStorage.removeItem("email");
+            localStorage.removeItem("password");
+            localStorage.removeItem("username");
             localStorage.removeItem("loggedIn");
             document.getElementById("login-container").classList.remove("hidden");
             document.getElementById("main-container").classList.add("hidden");
         }
 
-        function share() {
-            let link = prompt("أدخل رابط الإنستغرام للمشاركة:");
-            if (link) {
-                alert("تمت مشاركة الرابط: " + link);
-            }
-        }
-
-        function calculateAverages() {
-            let totalScore = 0, totalCoeff = 0;
-            subjects.forEach(sub => {
-                let evalScore = parseFloat(document.getElementById(`${sub.id}_eval`).value) || 0;
-                let testScore = parseFloat(document.getElementById(`${sub.id}_test`).value) || 0;
-                let examScore = parseFloat(document.getElementById(`${sub.id}_exam`).value) || 0;
-
-                let subjectAverage = (evalScore + testScore + (examScore * 2)) / 4;
-                document.getElementById(`${sub.id}_avg`).innerText = subjectAverage.toFixed(2);
-
-                totalScore += subjectAverage * sub.coeff;
-                totalCoeff += sub.coeff;
-            });
-
-            let finalAverage = (totalScore / totalCoeff).toFixed(2);
-            document.getElementById("finalResult").innerText = `المعدل الفصلي: ${finalAverage}`;
-        }
-
-        function saveData() {
-            let data = {};
-            subjects.forEach(sub => {
-                data[`${sub.id}_eval`] = document.getElementById(`${sub.id}_eval`).value;
-                data[`${sub.id}_test`] = document.getElementById(`${sub.id}_test`).value;
-                data[`${sub.id}_exam`] = document.getElementById(`${sub.id}_exam`).value;
-            });
-
-            localStorage.setItem("savedData", JSON.stringify(data));
-            alert("تم حفظ الخانات بنجاح!");
-        }
-
-        function restoreData() {
-            let data = localStorage.getItem("savedData");
-            if (data) {
-                data = JSON.parse(data);
-                subjects.forEach(sub => {
-                    document.getElementById(`${sub.id}_eval`).value = data[`${sub.id}_eval`] || "";
-                    document.getElementById(`${sub.id}_test`).value = data[`${sub.id}_test`] || "";
-                    document.getElementById(`${sub.id}_exam`).value = data[`${sub.id}_exam`] || "";
-                });
-                alert("تم استرجاع الخانات!");
-            } else {
-                alert("لا توجد بيانات محفوظة!");
-            }
-        }
-
-        function clearFields() {
-            subjects.forEach(sub => {
-                document.getElementById(`${sub.id}_eval`).value = "";
-                document.getElementById(`${sub.id}_test`).value = "";
-                document.getElementById(`${sub.id}_exam`).value = "";
-                document.getElementById(`${sub.id}_avg`).innerText = "--";
-            });
-            document.getElementById("finalResult").innerText = "المعدل الفصلي: --";
-        }
-
+        // التحقق من حالة تسجيل الدخول عند تحميل الصفحة
         if (localStorage.getItem("loggedIn") === "true") {
+            let username = localStorage.getItem("username");
+            document.getElementById("user-name").innerText = username;
             document.getElementById("login-container").classList.add("hidden");
             document.getElementById("main-container").classList.remove("hidden");
         }
