@@ -79,6 +79,7 @@
             <input type="email" id="email" placeholder="أدخل بريدك الإلكتروني" /><br><br>
             <input type="password" id="password" placeholder="أدخل كلمة السر" /><br><br>
             <button onclick="register()">إنشاء حساب</button>
+            <p>أليس لديك حساب؟ <a href="#" onclick="showLoginForm()">تسجيل الدخول</a></p>
         </div>
 
         <div id="login-form" class="hidden">
@@ -86,6 +87,7 @@
             <input type="email" id="login-email" placeholder="أدخل بريدك الإلكتروني" /><br><br>
             <input type="password" id="login-password" placeholder="أدخل كلمة السر" /><br><br>
             <button onclick="login()">تسجيل الدخول</button>
+            <p>ليس لديك حساب؟ <a href="#" onclick="showRegisterForm()">إنشاء حساب</a></p>
         </div>
     </div>
 
@@ -94,6 +96,7 @@
         <h2>حساب المعدل الفصلي للسنة الرابعة متوسط</h2>
         <button onclick="logout()">🚪 تسجيل الخروج</button>
         <button onclick="share()">📢 مشاركة</button>
+        <div id="user-name"></div>
 
         <div class="table-container">
             <table>
@@ -146,6 +149,18 @@
     </div>
 
     <script>
+        // إظهار واجهة تسجيل الدخول
+        function showLoginForm() {
+            document.getElementById("register-form").classList.add("hidden");
+            document.getElementById("login-form").classList.remove("hidden");
+        }
+
+        // إظهار واجهة إنشاء الحساب
+        function showRegisterForm() {
+            document.getElementById("login-form").classList.add("hidden");
+            document.getElementById("register-form").classList.remove("hidden");
+        }
+
         // تسجيل حساب جديد
         function register() {
             let username = document.getElementById("username").value.trim();
@@ -208,7 +223,6 @@
             document.getElementById("login-container").classList.add("hidden");
             document.getElementById("main-container").classList.remove("hidden");
         }
-    </script>
 
-</body>
-</html>
+        // الوظائف الإضافية مثل حساب المعدلات، حفظ البيانات، استرجاعها وحذفها
+        function calculate
