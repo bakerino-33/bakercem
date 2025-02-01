@@ -30,6 +30,73 @@ document.addEventListener("DOMContentLoaded", function () {
         `;
         tableBody.appendChild(row);
     });
+document.addEventListener("DOMContentLoaded", function () {
+    let canvas = document.createElement("canvas");
+    document.body.appendChild(canvas);
+    let ctx = canvas.getContext("2d");
+
+    canvas.style.position = "fixed";
+    canvas.style.top = "0";
+    canvas.style.left = "0";
+    canvas.style.width = "100%";
+    canvas.style.height = "100%";
+    canvas.style.zIndex = "-1";
+
+    let particles = [];
+    let numParticles = 100;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+
+    function createParticles() {
+        particles = [];
+        for (let i = 0; i < numParticles; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 3 + 1,
+                dx: (Math.random() - 0.5) * 2,
+                dy: (Math.random() - 0.5) * 2
+            });
+        }
+    }
+
+    function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(0, 102, 204, 0.7)";
+        
+        particles.forEach(p => {
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fill();
+        });
+
+        moveParticles();
+    }
+
+    function moveParticles() {
+        particles.forEach(p => {
+            p.x += p.dx;
+            p.y += p.dy;
+
+            if (p.x < 0 || p.x > canvas.width) p.dx *= -1;
+            if (p.y < 0 || p.y > canvas.height) p.dy *= -1;
+        });
+    }
+
+    function animate() {
+        drawParticles();
+        requestAnimationFrame(animate);
+    }
+
+    window.addEventListener("resize", resizeCanvas);
+
+    resizeCanvas();
+    createParticles();
+    animate();
+});
 
     document.getElementById("clearInputs").addEventListener("click", () => {
         document.querySelectorAll("input").forEach(input => input.value = "");
