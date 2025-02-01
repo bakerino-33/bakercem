@@ -23,44 +23,28 @@
         h2 {
             color: #0d47a1;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            border: 1px solid #0d47a1;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background: #0d47a1;
-            color: white;
-        }
-        input {
-            width: 50px;
-            text-align: center;
-        }
-        button {
-            background: #0d47a1;
-            color: white;
-            padding: 10px;
-            margin-top: 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background: #1565c0;
-        }
         .buttons {
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
             margin-top: 10px;
         }
-        .footer-buttons {
+        .login-form {
             margin-top: 20px;
+            display: block;
+        }
+        .logged-in {
+            display: none;
+        }
+        .exam-section {
+            margin-top: 30px;
+            background: #f1f1f1;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .exam-section h3 {
+            color: #0d47a1;
         }
     </style>
 </head>
@@ -68,81 +52,93 @@
 
     <div class="container">
         <h2>حساب المعدل الفصلي للسنة الرابعة متوسط</h2>
-        <table>
-            <tr>
-                <th>المادة</th>
-                <th>التقويم</th>
-                <th>الفرض</th>
-                <th>الامتحان</th>
-                <th>المعامل</th>
-                <th>معدل المادة</th>
-            </tr>
-            <script>
-                let subjects = [
-                    { name: "اللغة العربية", id: "ar", coeff: 5 },
-                    { name: "الرياضيات", id: "math", coeff: 4 },
-                    { name: "الفرنسية", id: "fr", coeff: 3 },
-                    { name: "الإنجليزية", id: "eng", coeff: 2 },
-                    { name: "العلوم الطبيعية", id: "sc", coeff: 2 },
-                    { name: "التاريخ والجغرافيا", id: "hist", coeff: 3 },
-                    { name: "التربية الإسلامية", id: "islam", coeff: 2 },
-                    { name: "الفيزياء", id: "phy", coeff: 2 },
-                    { name: "التربية البدنية", id: "sport", coeff: 1 },
-                    { name: "الرسم", id: "art", coeff: 1 },
-                    { name: "الإعلام الآلي", id: "it", coeff: 1 },
-                    { name: "التربية المدنية", id: "civ", coeff: 1 }
-                ];
 
-                subjects.forEach(sub => {
-                    document.write(`
-                        <tr>
-                            <td>${sub.name}</td>
-                            <td><input type="number" id="${sub.id}_eval"></td>
-                            <td><input type="number" id="${sub.id}_test"></td>
-                            <td><input type="number" id="${sub.id}_exam"></td>
-                            <td>${sub.coeff}</td>
-                            <td id="${sub.id}_avg">--</td>
-                        </tr>
-                    `);
-                });
-            </script>
-        </table>
-
-        <button onclick="calculateAverages()">احسب المعدلات</button>
-        <h3 id="finalResult">المعدل الفصلي: --</h3>
-
-        <div class="buttons">
-            <button onclick="saveData()">💾 حفظ الخانات</button>
-            <button onclick="restoreLastSaved()">🔄 استرجاع آخر عملية حفظ</button>
-            <button onclick="clearFields()">🗑️ حذف جميع الخانات</button>
+        <!-- نموذج تسجيل الدخول -->
+        <div class="login-form">
+            <h3>تسجيل الدخول</h3>
+            <input type="email" id="email" placeholder="البريد الإلكتروني" required><br><br>
+            <input type="password" id="password" placeholder="كلمة السر" required><br><br>
+            <button onclick="login()">تسجيل الدخول</button>
+            <br><br>
+            <p>ليس لديك حساب؟ <button onclick="window.location.href='signup.html'">إنشاء حساب جديد</button></p>
         </div>
 
-        <div class="footer-buttons">
+        <!-- القسم الذي يظهر بعد تسجيل الدخول بنجاح -->
+        <div class="logged-in">
+            <h3>مرحبًا بك في التطبيق!</h3>
+            <button onclick="enableShare()">مشاركة</button>
+        </div>
+
+        <!-- حساب المعدل -->
+        <div class="exam-section">
+            <h3>حساب المعدل الفصلي للسنة الرابعة متوسط</h3>
+            <table>
+                <tr>
+                    <th>المادة</th>
+                    <th>التقويم</th>
+                    <th>الفرض</th>
+                    <th>الامتحان</th>
+                    <th>المعامل</th>
+                    <th>معدل المادة</th>
+                </tr>
+                <script>
+                    let subjects = [
+                        { name: "اللغة العربية", id: "ar", coeff: 5 },
+                        { name: "الرياضيات", id: "math", coeff: 4 },
+                        { name: "الفرنسية", id: "fr", coeff: 3 },
+                        { name: "الإنجليزية", id: "eng", coeff: 2 },
+                        { name: "العلوم الطبيعية", id: "sc", coeff: 2 },
+                        { name: "التاريخ والجغرافيا", id: "hist", coeff: 3 },
+                        { name: "التربية الإسلامية", id: "islam", coeff: 2 },
+                        { name: "الفيزياء", id: "phy", coeff: 2 },
+                        { name: "التربية البدنية", id: "sport", coeff: 1 },
+                        { name: "الرسم", id: "art", coeff: 1 },
+                        { name: "الإعلام الآلي", id: "it", coeff: 1 },
+                        { name: "التربية المدنية", id: "civ", coeff: 1 }
+                    ];
+
+                    subjects.forEach(sub => {
+                        document.write(`
+                            <tr>
+                                <td>${sub.name}</td>
+                                <td><input type="number" id="${sub.id}_eval"></td>
+                                <td><input type="number" id="${sub.id}_test"></td>
+                                <td><input type="number" id="${sub.id}_exam"></td>
+                                <td>${sub.coeff}</td>
+                                <td id="${sub.id}_avg">--</td>
+                            </tr>
+                        `);
+                    });
+                </script>
+            </table>
+
+            <button onclick="calculateAverages()">احسب المعدلات</button>
+            <h3 id="finalResult">المعدل الفصلي: --</h3>
+
+            <div class="buttons">
+                <button onclick="saveData()">💾 حفظ الخانات</button>
+                <button onclick="restoreLastSaved()">🔄 استرجاع آخر عملية حفظ</button>
+                <button onclick="clearFields()">🗑️ حذف جميع الخانات</button>
+            </div>
+        </div>
+
+        <!-- قسم الفروض والاختبارات -->
+        <div class="exam-section">
+            <h3>فروض واختبارات السنة الرابعة متوسط</h3>
+            <button onclick="window.location.href='exams.html'">عرض الفروض والاختبارات</button>
+        </div>
+
+        <!-- تواصل وتقييم -->
+        <div class="buttons">
             <button onclick="window.location.href='https://www.instagram.com/xx_soufi_39?igsh=cXBqczVvdXBreHZ2'">تواصل</button>
             <button onclick="alert('سيتم التفعيل قريبًا - بكر')">تقييم التطبيق</button>
             <button onclick="sendLike()">❤️ أعجبني</button>
         </div>
 
-        <!-- قسم الفروض والاختبارات -->
-        <div class="footer-buttons">
-            <button onclick="window.location.href='exams.html'">فروض واختبارات</button>
-        </div>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let inputs = document.querySelectorAll("input[type='number']");
-            inputs.forEach(input => {
-                input.addEventListener("change", function () {
-                    let value = parseFloat(this.value);
-                    if (value < 0 || value > 20) {
-                        alert("الرجاء إدخال قيمة بين 0 و 20 فقط!");
-                        this.value = "";
-                    }
-                });
-            });
-        });
-
+        // حساب المعدلات
         function calculateAverages() {
             let totalScore = 0, totalCoeff = 0;
 
@@ -162,6 +158,7 @@
             document.getElementById("finalResult").innerText = `المعدل الفصلي: ${finalAverage}`;
         }
 
+        // حفظ البيانات
         function saveData() {
             let data = {};
             subjects.forEach(sub => {
@@ -174,6 +171,7 @@
             alert("تم حفظ الخانات بنجاح!");
         }
 
+        // استرجاع البيانات المحفوظة
         function restoreLastSaved() {
             let data = localStorage.getItem("lastSavedData");
             if (data) {
@@ -189,6 +187,7 @@
             }
         }
 
+        // حذف البيانات
         function clearFields() {
             subjects.forEach(sub => {
                 document.getElementById(`${sub.id}_eval`).value = "";
@@ -199,12 +198,40 @@
             document.getElementById("finalResult").innerText = "المعدل الفصلي: --";
         }
 
+        // إرسال إعجاب
         function sendLike() {
             let email = "bakerffbaker@gmail.com";
             let subject = encodeURIComponent("تقييم التطبيق");
             let body = encodeURIComponent("مرحبًا، لقد أعجبني تطبيقك!");
             window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
         }
+
+        // تسجيل الدخول
+        function login() {
+            let email = document.getElementById("email").value;
+            let password = document.getElementById("password").value;
+
+            if (email && password) {
+                localStorage.setItem("loggedIn", true);
+                localStorage.setItem("email", email);
+                localStorage.setItem("password", password);
+                showLoggedIn();
+            } else {
+                alert("من فضلك أدخل البريد الإلكتروني وكلمة السر");
+            }
+        }
+
+        // عرض القسم بعد تسجيل الدخول
+        function showLoggedIn() {
+            document.querySelector(".login-form").style.display = "none";
+            document.querySelector(".logged-in").style.display = "block";
+        }
+
+        // تفعيل ميزة المشاركة
+        function enableShare() {
+            alert("تم تفعيل ميزة المشاركة!");
+        }
+
     </script>
 
 </body>
