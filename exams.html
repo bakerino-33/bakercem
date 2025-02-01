@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>فروض واختبارات - بوبكر</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #e3f2fd;
+            direction: rtl;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #0d47a1;
+        }
+        .subject {
+            background: #0d47a1;
+            color: white;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .exams-list {
+            display: none;
+            list-style: none;
+            padding: 0;
+        }
+        .exams-list li {
+            background: #007BFF;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+        .exams-list li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+        .exams-list li:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>📚 فروض واختبارات السنة الرابعة متوسط</h2>
+
+        <div class="subject" onclick="toggleExams('maths')">📘 الرياضيات</div>
+        <ul id="maths" class="exams-list">
+            <li><a href="https://www.dzexams.com/ar/download/4am/maths/devoir-88.pdf" target="_blank">فرض الفصل الثاني رقم 88</a></li>
+            <li><a href="https://www.dzexams.com/ar/download/4am/maths/devoir-87.pdf" target="_blank">فرض الفصل الثاني رقم 87</a></li>
+            <li><a href="https://www.dzexams.com/ar/download/4am/maths/exam-10.pdf" target="_blank">اختبار الفصل الثاني رقم 10</a></li>
+        </ul>
+
+        <div class="subject" onclick="toggleExams('arabic')">📕 اللغة العربية</div>
+        <ul id="arabic" class="exams-list">
+            <li><a href="https://www.dzexams.com/ar/download/4am/arabic/devoir-12.pdf" target="_blank">فرض الفصل الثاني رقم 12</a></li>
+            <li><a href="https://www.dzexams.com/ar/download/4am/arabic/exam-5.pdf" target="_blank">اختبار الفصل الثاني رقم 5</a></li>
+        </ul>
+
+        <div class="subject" onclick="toggleExams('science')">🔬 العلوم الطبيعية</div>
+        <ul id="science" class="exams-list">
+            <li><a href="https://www.dzexams.com/ar/download/4am/science/devoir-9.pdf" target="_blank">فرض الفصل الثاني رقم 9</a></li>
+            <li><a href="https://www.dzexams.com/ar/download/4am/science/exam-4.pdf" target="_blank">اختبار الفصل الثاني رقم 4</a></li>
+        </ul>
+
+        <div class="subject" onclick="toggleExams('physics')">⚛️ الفيزياء</div>
+        <ul id="physics" class="exams-list">
+            <li><a href="https://www.dzexams.com/ar/download/4am/physics/devoir-10.pdf" target="_blank">فرض الفصل الثاني رقم 10</a></li>
+            <li><a href="https://www.dzexams.com/ar/download/4am/physics/exam-3.pdf" target="_blank">اختبار الفصل الثاني رقم 3</a></li>
+        </ul>
+
+        <div class="subject" onclick="toggleExams('history')">🏛️ التاريخ والجغرافيا</div>
+        <ul id="history" class="exams-list">
+            <li><a href="https://www.dzexams.com/ar/download/4am/history/devoir-6.pdf" target="_blank">فرض الفصل الثاني رقم 6</a></li>
+            <li><a href="https://www.dzexams.com/ar/download/4am/history/exam-2.pdf" target="_blank">اختبار الفصل الثاني رقم 2</a></li>
+        </ul>
+
+    </div>
+
+    <script>
+        function toggleExams(id) {
+            let list = document.getElementById(id);
+            if (list.style.display === "block") {
+                list.style.display = "none";
+            } else {
+                list.style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>
