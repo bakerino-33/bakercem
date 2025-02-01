@@ -59,18 +59,8 @@
             flex-wrap: wrap;
             margin-top: 10px;
         }
-        .exam-section {
-            margin-top: 30px;
-            background: #f1f1f1;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
-        }
-        .exam-section h3 {
-            color: #0d47a1;
-        }
-        .exam-section button {
-            margin-top: 10px;
+        .footer-buttons {
+            margin-top: 20px;
         }
     </style>
 </head>
@@ -78,35 +68,6 @@
 
     <div class="container">
         <h2>حساب المعدل الفصلي للسنة الرابعة متوسط</h2>
-        
-        <!-- نموذج تسجيل الدخول أو إنشاء حساب -->
-        <button onclick="showLoginForm()">تسجيل الدخول</button>
-        <button onclick="showSignUpForm()">إنشاء حساب جديد</button>
-
-        <div id="loginForm" style="display:none;">
-            <h3>تسجيل الدخول</h3>
-            <input type="text" id="loginUsername" placeholder="اسم المستخدم">
-            <input type="password" id="loginPassword" placeholder="كلمة المرور">
-            <button onclick="loginUser()">تسجيل الدخول</button>
-        </div>
-
-        <div id="signUpForm" style="display:none;">
-            <h3>إنشاء حساب جديد</h3>
-            <input type="text" id="signupUsername" placeholder="اسم المستخدم">
-            <input type="password" id="signupPassword" placeholder="كلمة المرور">
-            <button onclick="signUpUser()">إنشاء الحساب</button>
-        </div>
-
-        <!-- المحتوى بعد تسجيل الدخول -->
-        <div id="userContent" style="display:none;">
-            <h3>مرحبًا، تم تسجيل الدخول بنجاح!</h3>
-            <button onclick="showInstagramForm()">مشاركة تواصل</button>
-            <div id="instagramForm" style="display:none;">
-                <input type="text" id="instagramLink" placeholder="أدخل رابط انستغرام الخاص بك">
-                <button onclick="submitInstagramLink()">إرسال</button>
-            </div>
-        </div>
-
         <table>
             <tr>
                 <th>المادة</th>
@@ -156,78 +117,32 @@
             <button onclick="clearFields()">🗑️ حذف جميع الخانات</button>
         </div>
 
-        <div class="buttons">
+        <div class="footer-buttons">
             <button onclick="window.location.href='https://www.instagram.com/xx_soufi_39?igsh=cXBqczVvdXBreHZ2'">تواصل</button>
             <button onclick="alert('سيتم التفعيل قريبًا - بكر')">تقييم التطبيق</button>
             <button onclick="sendLike()">❤️ أعجبني</button>
         </div>
 
         <!-- قسم الفروض والاختبارات -->
-        <div class="exam-section">
-            <h3>فروض واختبارات السنة الرابعة متوسط</h3>
-            <button onclick="window.location.href='exams.html'">عرض الفروض والاختبارات</button>
+        <div class="footer-buttons">
+            <button onclick="window.location.href='exams.html'">فروض واختبارات</button>
         </div>
-
     </div>
 
     <script>
-        // دالة لإنشاء الحساب الجديد
-        function signUpUser() {
-            const username = document.getElementById('signupUsername').value;
-            const password = document.getElementById('signupPassword').value;
-            if (username && password) {
-                localStorage.setItem('username', username);
-                localStorage.setItem('password', password);
-                alert('تم إنشاء الحساب بنجاح!');
-                document.getElementById('signUpForm').style.display = 'none';
-                document.getElementById('loginForm').style.display = 'block';
-            } else {
-                alert('يرجى إدخال جميع البيانات');
-            }
-        }
+        document.addEventListener("DOMContentLoaded", function () {
+            let inputs = document.querySelectorAll("input[type='number']");
+            inputs.forEach(input => {
+                input.addEventListener("change", function () {
+                    let value = parseFloat(this.value);
+                    if (value < 0 || value > 20) {
+                        alert("الرجاء إدخال قيمة بين 0 و 20 فقط!");
+                        this.value = "";
+                    }
+                });
+            });
+        });
 
-        // دالة لتسجيل الدخول
-        function loginUser() {
-            const username = document.getElementById('loginUsername').value;
-            const password = document.getElementById('loginPassword').value;
-            const storedUsername = localStorage.getItem('username');
-            const storedPassword = localStorage.getItem('password');
-            
-            if (username === storedUsername && password === storedPassword) {
-                alert('تم تسجيل الدخول بنجاح!');
-                document.getElementById('loginForm').style.display = 'none';
-                document.getElementById('userContent').style.display = 'block';
-            } else {
-                alert('اسم المستخدم أو كلمة المرور غير صحيحة');
-            }
-        }
-
-        // دالة لعرض نموذج إضافة رابط انستغرام
-        function showInstagramForm() {
-            document.getElementById('instagramForm').style.display = 'block';
-        }
-
-        // دالة لإرسال رابط انستغرام
-        function submitInstagramLink() {
-            const instagramLink = document.getElementById('instagramLink').value;
-            if (instagramLink) {
-                alert('سيتم عرض حساب انستغرامك قريبًا!');
-                sendInstagramMessage(instagramLink);
-                document.getElementById('instagramForm').style.display = 'none';
-            } else {
-                alert('يرجى إدخال رابط انستغرام');
-            }
-        }
-
-        // دالة لإرسال رسالة على البريد الإلكتروني عند إدخال رابط انستغرام
-        function sendInstagramMessage(instagramLink) {
-            const email = "bakerffbaker@gmail.com";
-            const subject = encodeURIComponent("رابط انستغرام جديد");
-            const body = encodeURIComponent(`تم إضافة رابط انستغرام جديد: ${instagramLink}`);
-            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
-        }
-
-        // دالة لحساب المعدلات
         function calculateAverages() {
             let totalScore = 0, totalCoeff = 0;
 
@@ -247,14 +162,50 @@
             document.getElementById("finalResult").innerText = `المعدل الفصلي: ${finalAverage}`;
         }
 
-        // دالة لحفظ البيانات
         function saveData() {
             let data = {};
             subjects.forEach(sub => {
                 data[`${sub.id}_eval`] = document.getElementById(`${sub.id}_eval`).value;
                 data[`${sub.id}_test`] = document.getElementById(`${sub.id}_test`).value;
-                data[`${sub.id}_exam`] = document.getElementById
+                data[`${sub.id}_exam`] = document.getElementById(`${sub.id}_exam`).value;
+            });
+
+            localStorage.setItem("lastSavedData", JSON.stringify(data));
+            alert("تم حفظ الخانات بنجاح!");
+        }
+
+        function restoreLastSaved() {
+            let data = localStorage.getItem("lastSavedData");
+            if (data) {
+                data = JSON.parse(data);
+                subjects.forEach(sub => {
+                    document.getElementById(`${sub.id}_eval`).value = data[`${sub.id}_eval`] || "";
+                    document.getElementById(`${sub.id}_test`).value = data[`${sub.id}_test`] || "";
+                    document.getElementById(`${sub.id}_exam`).value = data[`${sub.id}_exam`] || "";
+                });
+                alert("تم استرجاع آخر عملية حفظ!");
+            } else {
+                alert("لا توجد بيانات محفوظة!");
+            }
+        }
+
+        function clearFields() {
+            subjects.forEach(sub => {
+                document.getElementById(`${sub.id}_eval`).value = "";
+                document.getElementById(`${sub.id}_test`).value = "";
+                document.getElementById(`${sub.id}_exam`).value = "";
+                document.getElementById(`${sub.id}_avg`).innerText = "--";
+            });
+            document.getElementById("finalResult").innerText = "المعدل الفصلي: --";
+        }
+
+        function sendLike() {
+            let email = "bakerffbaker@gmail.com";
+            let subject = encodeURIComponent("تقييم التطبيق");
+            let body = encodeURIComponent("مرحبًا، لقد أعجبني تطبيقك!");
+            window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+        }
+    </script>
 
 </body>
 </html>
-
