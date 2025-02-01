@@ -97,6 +97,40 @@ document.addEventListener("DOMContentLoaded", function () {
     createParticles();
     animate();
 });
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let inputs = document.querySelectorAll("input[type='number']");
+
+        inputs.forEach(input => {
+            input.addEventListener("change", function () {
+                let value = parseFloat(this.value);
+                if (value < 0 || value > 20) {
+                    alert("الرجاء إدخال قيمة بين 0 و 20 فقط!");
+                    this.value = "";
+                }
+            });
+        });
+    });
+
+    function calculateAverages() {
+        let totalScore = 0, totalCoeff = 0;
+
+        subjects.forEach(sub => {
+            let evalScore = parseFloat(document.getElementById(`${sub.id}_eval`).value) || 0;
+            let testScore = parseFloat(document.getElementById(`${sub.id}_test`).value) || 0;
+            let examScore = parseFloat(document.getElementById(`${sub.id}_exam`).value) || 0;
+
+            let subjectAverage = (evalScore + testScore + (examScore * 2)) / 4;
+            document.getElementById(`${sub.id}_avg`).innerText = subjectAverage.toFixed(2);
+
+            totalScore += subjectAverage * sub.coeff;
+            totalCoeff += sub.coeff;
+        });
+
+        let finalAverage = (totalScore / totalCoeff).toFixed(2);
+        document.getElementById("finalResult").innerText = `المعدل الفصلي: ${finalAverage}`;
+    }
+</script>
 
     document.getElementById("clearInputs").addEventListener("click", () => {
         document.querySelectorAll("input").forEach(input => input.value = "");
