@@ -24,7 +24,8 @@
             display: none;
         }
         input {
-            width: 300px;
+            width: 100%;
+            max-width: 300px;
             text-align: center;
             font-size: 18px;
             padding: 10px;
@@ -59,6 +60,31 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+        }
+        table {
+            width: 100%;
+            max-width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #0d47a1;
+            color: white;
+        }
+        @media (max-width: 768px) {
+            th, td {
+                font-size: 12px;
+            }
+            input {
+                width: 80%;
+                max-width: 250px;
+            }
         }
     </style>
 </head>
@@ -97,43 +123,47 @@
 
         <div class="table-container">
             <table>
-                <tr>
-                    <th>المادة</th>
-                    <th>التقويم</th>
-                    <th>الفرض</th>
-                    <th>الامتحان</th>
-                    <th>المعامل</th>
-                    <th>معدل المادة</th>
-                </tr>
-                <script>
-                    let subjects = [
-                        { name: "اللغة العربية", id: "ar", coeff: 5 },
-                        { name: "الرياضيات", id: "math", coeff: 4 },
-                        { name: "الفرنسية", id: "fr", coeff: 3 },
-                        { name: "الإنجليزية", id: "eng", coeff: 2 },
-                        { name: "العلوم الطبيعية", id: "sc", coeff: 2 },
-                        { name: "التاريخ والجغرافيا", id: "hist", coeff: 3 },
-                        { name: "التربية الإسلامية", id: "islam", coeff: 2 },
-                        { name: "الفيزياء", id: "phy", coeff: 2 },
-                        { name: "التربية البدنية", id: "sport", coeff: 1 },
-                        { name: "الرسم", id: "art", coeff: 1 },
-                        { name: "الإعلام الآلي", id: "it", coeff: 1 },
-                        { name: "التربية المدنية", id: "civ", coeff: 1 }
-                    ];
+                <thead>
+                    <tr>
+                        <th>المادة</th>
+                        <th>التقويم</th>
+                        <th>الفرض</th>
+                        <th>الامتحان</th>
+                        <th>المعامل</th>
+                        <th>معدل المادة</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <script>
+                        let subjects = [
+                            { name: "اللغة العربية", id: "ar", coeff: 5 },
+                            { name: "الرياضيات", id: "math", coeff: 4 },
+                            { name: "الفرنسية", id: "fr", coeff: 3 },
+                            { name: "الإنجليزية", id: "eng", coeff: 2 },
+                            { name: "العلوم الطبيعية", id: "sc", coeff: 2 },
+                            { name: "التاريخ والجغرافيا", id: "hist", coeff: 3 },
+                            { name: "التربية الإسلامية", id: "islam", coeff: 2 },
+                            { name: "الفيزياء", id: "phy", coeff: 2 },
+                            { name: "التربية البدنية", id: "sport", coeff: 1 },
+                            { name: "الرسم", id: "art", coeff: 1 },
+                            { name: "الإعلام الآلي", id: "it", coeff: 1 },
+                            { name: "التربية المدنية", id: "civ", coeff: 1 }
+                        ];
 
-                    subjects.forEach(sub => {
-                        document.write(`
-                            <tr>
-                                <td>${sub.name}</td>
-                                <td><input type="number" id="${sub.id}_eval"></td>
-                                <td><input type="number" id="${sub.id}_test"></td>
-                                <td><input type="number" id="${sub.id}_exam"></td>
-                                <td>${sub.coeff}</td>
-                                <td id="${sub.id}_avg">--</td>
-                            </tr>
-                        `);
-                    });
-                </script>
+                        subjects.forEach(sub => {
+                            document.write(`
+                                <tr>
+                                    <td>${sub.name}</td>
+                                    <td><input type="number" id="${sub.id}_eval"></td>
+                                    <td><input type="number" id="${sub.id}_test"></td>
+                                    <td><input type="number" id="${sub.id}_exam"></td>
+                                    <td>${sub.coeff}</td>
+                                    <td id="${sub.id}_avg">--</td>
+                                </tr>
+                            `);
+                        });
+                    </script>
+                </tbody>
             </table>
         </div>
 
