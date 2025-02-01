@@ -59,8 +59,18 @@
             flex-wrap: wrap;
             margin-top: 10px;
         }
-        .footer-buttons {
-            margin-top: 20px;
+        .exam-section {
+            margin-top: 30px;
+            background: #f1f1f1;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+        }
+        .exam-section h3 {
+            color: #0d47a1;
+        }
+        .exam-section button {
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -117,15 +127,16 @@
             <button onclick="clearFields()">🗑️ حذف جميع الخانات</button>
         </div>
 
-        <div class="footer-buttons">
+        <div class="buttons">
             <button onclick="window.location.href='https://www.instagram.com/xx_soufi_39?igsh=cXBqczVvdXBreHZ2'">تواصل</button>
             <button onclick="alert('سيتم التفعيل قريبًا - بكر')">تقييم التطبيق</button>
             <button onclick="sendLike()">❤️ أعجبني</button>
         </div>
 
-        <!-- قسم الفروض والاختبارات -->
-        <div class="footer-buttons">
-            <button onclick="window.location.href='exams.html'">فروض واختبارات</button>
+        <!-- قسم فروض واختبارات -->
+        <div class="exam-section">
+            <h3>فروض واختبارات السنة الرابعة متوسط</h3>
+            <button onclick="window.location.href='exam.html'">عرض الفروض والاختبارات</button>
         </div>
     </div>
 
