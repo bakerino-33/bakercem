@@ -1,189 +1,260 @@
-
 <!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حساب المعدل - بوبكر</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #e3f2fd;
-            direction: rtl;
-            padding: 20px;
-            opacity: 0;
-            animation: fadeIn 1s forwards;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .container {
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        h2 {
-            color: #0d47a1;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-        th, td {
-            border: 1px solid #0d47a1;
-            padding: 8px;
-            text-align: center;
-        }
-        th {
-            background: #0d47a1;
-            color: white;
-        }
-        input {
-            width: 50px;
-            text-align: center;
-        }
-        button {
-            background: #0d47a1;
-            color: white;
-            padding: 10px;
-            margin-top: 10px;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-        button:hover {
-            background: #1565c0;
-        }
-        .buttons {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            margin-top: 10px;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <h2>حساب المعدل الفصلي للسنة الرابعة متوسط</h2>
-        <table>
-            <tr>
-                <th>المادة</th>
-                <th>التقويم</th>
-                <th>الفرض</th>
-                <th>الامتحان</th>
-                <th>المعامل</th>
-                <th>معدل المادة</th>
-            </tr>
-            <script>
-                let subjects = [
-                    { name: "اللغة العربية", id: "ar", coeff: 5 },
-                    { name: "الرياضيات", id: "math", coeff: 4 },
-                    { name: "الفرنسية", id: "fr", coeff: 3 },
-                    { name: "الإنجليزية", id: "eng", coeff: 2 },
-                    { name: "العلوم الطبيعية", id: "sc", coeff: 2 },
-                    { name: "التاريخ والجغرافيا", id: "hist", coeff: 3 },
-                    { name: "التربية الإسلامية", id: "islam", coeff: 2 },
-                    { name: "الفيزياء", id: "phy", coeff: 2 },
-                    { name: "التربية المدنية", id: "civ", coeff: 1 },
-                    { name: "التربية البدنية", id: "sport", coeff: 1 },
-                    { name: "الرسم", id: "art", coeff: 1 },
-                    { name: "الإعلام الآلي", id: "it", coeff: 1 }
-                ];
-
-                subjects.forEach(sub => {
-                    document.write(`
-                        <tr>
-                            <td>${sub.name}</td>
-                            <td><input type="number" id="${sub.id}_eval"></td>
-                            <td><input type="number" id="${sub.id}_test"></td>
-                            <td><input type="number" id="${sub.id}_exam"></td>
-                            <td>${sub.coeff}</td>
-                            <td id="${sub.id}_avg">--</td>
-                        </tr>
-                    `);
-                });
-            </script>
-        </table>
-
-        <button onclick="calculateAverages()">احسب المعدلات</button>
-        <h3 id="finalResult">المعدل الفصلي: --</h3>
-
-        <div class="buttons">
-            <button onclick="saveData()">💾 حفظ الخانات</button>
-            <button onclick="restoreLastSaved()">🔄 استرجاع آخر عملية حفظ</button>
-            <button onclick="clearFields()">🗑️ حذف جميع الخانات</button>
+<html lang="en">
+  <head>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <!-- FONTS -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Baker Gaming Shop</title>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <div class="headerContainer">
+      <div class="header">
+        <a href="index.html" class="logo">
+          <img src="images/logo.png" alt="logo" />
+        </a>
+        <div class="headerLinks">
+          <a href=" https://bug-yea-sunshine-wide.trycloudflare.com">Home</a>
+          <a href="#">Our Shop</a>
+          <a href="#">Product Details</a>
+          <a href="contactUs.html">Contact Us</a>
+          <button class="btn">sign in</button>
         </div>
-
-        <div class="buttons">
-            <button onclick="window.location.href='https://www.instagram.com/xx_soufi_39?igsh=cXBqczVvdXBreHZ2'">تواصل</button>
-            <button onclick="alert('سيتم التفعيل قريبًا - بكر')">تقييم التطبيق</button>
-        </div>
+      </div>
     </div>
 
-    <script>
-        function calculateAverages() {
-            let totalScore = 0, totalCoeff = 0;
+    <!-- LANDING PAGE -->
+    <div class="landingPageContainer">
+      <div class="landingPage">
+        <!-- LEFT SIDE -->
+        <div class="leftSide">
+          <p class="welcome">Welcome to Baker Gaming</p>
+          <h1 class="slogan">best gaming site ever!</h1>
+          <p class="description">
+            Baker Shop Gaming is free Bootstrap 5 HTML CSS website template for your
+            gaming websites. You can download and use this layout for commercial
+            purposes. Please tell your friends about TemplateMo.
+          </p>
+          <div class="searchBar">
+            <input type="text" placeholder="Type Something" />
+            <button class="btn searchBtn">SEARCH NOW</button>
+          </div>
+        </div>
 
-            subjects.forEach(sub => {
-                let evalScore = parseFloat(document.getElementById(`${sub.id}_eval`).value) || 0;
-                let testScore = parseFloat(document.getElementById(`${sub.id}_test`).value) || 0;
-                let examScore = parseFloat(document.getElementById(`${sub.id}_exam`).value) || 0;
+        <!-- RIGHT SIDE  -->
+        <div class="imageContainer">
+          <img src="images/banner-image.jpg" alt="" />
+        </div>
+      </div>
+    </div>
 
-                let subjectAverage = (evalScore + testScore + (examScore * 2)) / 4;
-                document.getElementById(`${sub.id}_avg`).innerText = subjectAverage.toFixed(2);
+    <!-- TRENDING GAMES SECTION  -->
+    <div class="trendingContainer">
+      <span>Trending</span>
+      <div class="trendingHeader">
+        <h1>Trending Games</h1>
+        <button class="btn">view all</button>
+      </div>
+      <div class="trendingCard">
+        <!-- TRENDING GAME 1 -->
+        <div class="card">
+          <img src="images/trending-01.jpg" alt="" />
+          <div class="cardInfo">
+            <div class="cardName">
+              <p>Action</p>
+              <h3>Assasin Creed</h3>
+            </div>
+            <a href="#" class="icon">
+              <img src="images/online-shopping.png" alt="" />
+            </a>
+          </div>
+        </div>
 
-                totalScore += subjectAverage * sub.coeff;
-                totalCoeff += sub.coeff;
-            });
+        <!-- TRENDING GAME 2 -->
+        <div class="card">
+          <img src="images/trending-02.jpg" alt="" />
+          <div class="cardInfo">
+            <div class="cardName">
+              <p>Action</p>
+              <h3>Assasin Creed</h3>
+            </div>
+            <a href="#" class="icon">
+              <img src="images/online-shopping.png" alt="" />
+            </a>
+          </div>
+        </div>
 
-            let finalAverage = (totalScore / totalCoeff).toFixed(2);
-            document.getElementById("finalResult").innerText = `المعدل الفصلي: ${finalAverage}`;
-        }
+        <!-- TRENDING GAME 3 -->
+        <div class="card">
+          <img src="images/trending-03.jpg" alt="" />
+          <div class="cardInfo">
+            <div class="cardName">
+              <p>Action</p>
+              <h3>Assasin Creed</h3>
+            </div>
+            <a href="#" class="icon">
+              <img src="images/online-shopping.png" alt="" />
+            </a>
+          </div>
+        </div>
 
-        function saveData() {
-            let data = {};
-            subjects.forEach(sub => {
-                data[`${sub.id}_eval`] = document.getElementById(`${sub.id}_eval`).value;
-                data[`${sub.id}_test`] = document.getElementById(`${sub.id}_test`).value;
-                data[`${sub.id}_exam`] = document.getElementById(`${sub.id}_exam`).value;
-            });
+        <!-- TRENDING GAME 4 -->
+        <div class="card">
+          <img src="images/trending-04.jpg" alt="" />
+          <div class="cardInfo">
+            <div class="cardName">
+              <p>Action</p>
+              <h3>Assasin Creed</h3>
+            </div>
+            <a href="#" class="icon">
+              <img src="images/online-shopping.png" alt="" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-            localStorage.setItem("lastSavedData", JSON.stringify(data));
-            alert("تم حفظ الخانات بنجاح!");
-        }
+    <!-- MOST PLAYED SECTION  -->
+    <div class="mostContainer">
+      <div class="mostPlayed">
+        <span>top games</span>
+        <div class="mostHeader">
+          <h1>Most Played</h1>
+          <button class="btn">view all</button>
+        </div>
 
-        function restoreLastSaved() {
-            let data = localStorage.getItem("lastSavedData");
-            if (data) {
-                data = JSON.parse(data);
-                subjects.forEach(sub => {
-                    document.getElementById(`${sub.id}_eval`).value = data[`${sub.id}_eval`] || "";
-                    document.getElementById(`${sub.id}_test`).value = data[`${sub.id}_test`] || "";
-                    document.getElementById(`${sub.id}_exam`).value = data[`${sub.id}_exam`] || "";
-                });
-                alert("تم استرجاع آخر عملية حفظ!");
-            } else {
-                alert("لا توجد بيانات محفوظة!");
-            }
-        }
+        <div class="mostCards">
+          <!-- CARD 1  -->
+          <div class="card">
+            <div class="cardImg">
+              <img src="images/top-game-01.jpg" alt="" />
+            </div>
+            <div class="cardInfo">
+              <p class="genre">Adventure</p>
+              <h3 class="cardName">Assasin Creed</h3>
+              <button class="btn">explore</button>
+            </div>
+          </div>
+          <!-- CARD 2  -->
+          <div class="card">
+            <div class="cardImg">
+              <img src="images/top-game-02.jpg" alt="" />
+            </div>
+            <div class="cardInfo">
+              <p class="genre">Adventure</p>
+              <h3 class="cardName">Assasin Creed</h3>
+              <button class="btn">explore</button>
+            </div>
+          </div>
+          <!-- CARD 3  -->
+          <div class="card">
+            <div class="cardImg">
+              <img src="images/top-game-03.jpg" alt="" />
+            </div>
+            <div class="cardInfo">
+              <p class="genre">Adventure</p>
+              <h3 class="cardName">Assasin Creed</h3>
+              <button class="btn">explore</button>
+            </div>
+          </div>
+          <!-- CARD 4 -->
+          <div class="card">
+            <div class="cardImg">
+              <img src="images/top-game-04.jpg" alt="" />
+            </div>
+            <div class="cardInfo">
+              <p class="genre">Adventure</p>
+              <h3 class="cardName">Assasin Creed</h3>
+              <button class="btn">explore</button>
+            </div>
+          </div>
+          <!-- CARD 5 -->
+          <div class="card">
+            <div class="cardImg">
+              <img src="images/top-game-05.jpg" alt="" />
+            </div>
+            <div class="cardInfo">
+              <p class="genre">Adventure</p>
+              <h3 class="cardName">Assasin Creed</h3>
+              <button class="btn">explore</button>
+            </div>
+          </div>
+          <!-- CARD 6 -->
+          <div class="card">
+            <div class="cardImg">
+              <img src="images/top-game-06.jpg" alt="" />
+            </div>
+            <div class="cardInfo">
+              <p class="genre">Adventure</p>
+              <h3 class="cardName">Assasin Creed</h3>
+              <button class="btn">explore</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-        function clearFields() {
-            subjects.forEach(sub => {
-                document.getElementById(`${sub.id}_eval`).value = "";
-                document.getElementById(`${sub.id}_test`).value = "";
-                document.getElementById(`${sub.id}_exam`).value = "";
-                document.getElementById(`${sub.id}_avg`).innerText = "--";
-            });
-            document.getElementById("finalResult").innerText = "المعدل الفصلي: --";
-        }
-    </script>
+    <!-- TOP CATEGORIES  -->
+    <div class="categoryContainer">
+      <div class="category">
+        <div class="categoryHeader">
+          <span>top games</span>
+          <h1>Top Categories</h1>
+        </div>
 
-</body>
+        <div class="categoryCards">
+          <!-- CARD 1  -->
+          <div class="card">
+            <div class="genre">Action</div>
+            <div class="cardImg">
+              <img src="images/categories-01.jpg" alt="" />
+            </div>
+          </div>
+          <!-- CARD 2 -->
+          <div class="card">
+            <div class="genre">Action</div>
+            <div class="cardImg">
+              <img src="images/categories-02.jpg" alt="" />
+            </div>
+          </div>
+          <!-- CARD 3 -->
+          <div class="card">
+            <div class="genre">Action</div>
+            <div class="cardImg">
+              <img src="images/categories-03.jpg" alt="" />
+            </div>
+          </div>
+          <!-- CARD 4 -->
+          <div class="card">
+            <div class="genre">Action</div>
+            <div class="cardImg">
+              <img src="images/categories-04.jpg" alt="" />
+            </div>
+          </div>
+          <!-- CARD 5   -->
+          <div class="card">
+            <div class="genre">Action</div>
+            <div class="cardImg">
+              <img src="images/categories-05.jpg" alt="" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER  -->
+    <div class="footerContainer">
+      <div class="footer">
+        copyright &copy; 2048 LUGX Gaming Company. All rights reserved. Design:
+        TemplateMo
+      </div>
+    </div>
+  </body>
 </html>
